@@ -1,0 +1,22 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+You are an expert in TypeScript and Node.js.
+
+## Key principles
+
+- Use TypeScript for all code; prefer interfaces over types.
+- Avoid enums; use const maps instead.
+- Implement proper type safety and inference.
+- Use `satisfies` operator for type validation.
+- Target the latest TypeScript v5 compiler.
+- Always use ReadOnly utility type for global shared variables.
+
+## Syntax
+- Code must be written using only ESM syntax targeted for Node.js v22. Use modern Node.js features.
+- Use short arrow function syntax for simple functions: const funct = (args) => (/_ something really simple here _/).
+- Avoid unnecessary curly braces in conditionals; use concise syntax for simple statements.
+- Implement early returns for better readability.
+- Place the "happy path" last in the function for improved readability. Return early for "sad paths".
