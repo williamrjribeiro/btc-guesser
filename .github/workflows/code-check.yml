@@ -1,0 +1,42 @@
+name: Code Check
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+  workflow_call:
+
+env:
+  HUSKY: 0
+
+concurrency:
+  group: ${{ github.job }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  code-check:
+    name: ⬣ ESLint, ʦ TypeScript, 💅 Prettier, and 🃏 Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'pnpm'
+
+      - name: Install Dependencies
+        run: pnpm i --frozen-lockfile
+
+      - name: 🔬 Lint
+        run: pnpm run ci:lint
+
+      - name: 🔎 Type check
+        run: pnpm run ci:typecheck
+
+      - name: 💅 Prettier check
+        run: pnpm run ci:format
+
+      # - name: 🃏 Test
+      #   run: pnpm run ci:test
