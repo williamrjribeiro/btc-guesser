@@ -6,10 +6,14 @@ import { defineConfig, globalIgnores } from 'eslint/config';
 import eslintConfigPrettier from 'eslint-config-prettier/flat';
 
 export default defineConfig([
-  globalIgnores(['.pnpm-store/']),
+  globalIgnores(['.pnpm-store/', './src/web-ui/dist/', '.sst/']),
   { files: ['**/*.{js,mjs,cjs,ts}'], plugins: { js }, extends: ['js/recommended'] },
   { files: ['**/*.{js,mjs,cjs,ts}'], languageOptions: { globals: globals.browser } },
-  tseslint.configs.recommended,
+  tseslint.config(tseslint.configs.recommended, {
+    rules: {
+      '@typescript-eslint/triple-slash-reference': 'off', // For SST Config
+    },
+  }),
   { files: ['**/*.json'], plugins: { json }, language: 'json/json', extends: ['json/recommended'] },
   eslintConfigPrettier,
 ]);

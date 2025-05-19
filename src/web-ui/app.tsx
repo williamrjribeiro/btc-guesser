@@ -2,12 +2,17 @@ import { useState } from 'preact/hooks';
 import preactLogo from './assets/preact.svg';
 import viteLogo from '/vite.svg';
 import './app.css';
+import { ADAPTERS } from '../adapters';
+import { GAME_CORE } from '../game-core';
 
 export function App() {
   const [count, setCount] = useState(0);
 
   return (
     <>
+      <h1>Crypto Guesser</h1>
+      <h2>{GAME_CORE}</h2>
+      <h2>{ADAPTERS}</h2>
       <div>
         <a href="https://vite.dev" target="_blank">
           <img src={viteLogo} class="logo" alt="Vite logo" />
