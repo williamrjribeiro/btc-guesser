@@ -38,5 +38,5 @@ jobs:
       - name: 💅 Prettier check
         run: pnpm run ci:format
 
-      # - name: 🃏 Test
-      #   run: pnpm run ci:test
+      - name: 🃏 Test
+        run: pnpm run ci:test

@@ -9,15 +9,18 @@
     "ci:format": "prettier --check .",
     "ci:lint": "eslint .",
     "ci:typecheck": "tsc --noEmit",
+    "ci:test": "vitest run",
     "dev": "vite",
     "format": "prettier --write .",
     "lint": "eslint . --fix",
     "preview": "vite preview",
+    "test": "vitest",
     "sst:deploy": "sst deploy",
     "sst:remove": "sst remove",
     "aws:sso": "aws sso login --sso-session=fire-emblem"
   },
   "dependencies": {
+    "@preact/signals": "^2.0.4",
     "preact": "^10.26.5",
     "sst": "^3.14.28"
   },
@@ -34,7 +37,8 @@
     "prettier": "^3.5.3",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.32.1",
-    "vite": "^6.3.5"
+    "vite": "^6.3.5",
+    "vitest": "^3.1.4"
   },
   "author": "William R. J. Ribeiro",
   "license": "Unlicense",
