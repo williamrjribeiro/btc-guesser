@@ -1,0 +1,27 @@
+{
+    "name": "btc-guesser",
+    "version": "0.0.1",
+    "description": "An online game for guessing the prices of crypto currencies",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "tsc -b && vite build",
+        "preview": "vite preview"
+    },
+    "dependencies": {
+        "preact": "^10.26.5"
+    },
+    "devDependencies": {
+        "@preact/preset-vite": "^2.10.1",
+        "typescript": "~5.8.3",
+        "vite": "^6.3.5"
+    },
+    "author": "William R. J. Ribeiro",
+    "license": "Unlicense",
+    "packageManager": "pnpm@10.7.1+sha512.2d92c86b7928dc8284f53494fb4201f983da65f0fb4f0d40baafa5cf628fa31dae3e5968f12466f17df7e97310e30f343a648baea1b9b350685dafafffdf5808",
+    "engines": {
+        "node": ">=22",
+        "pnpm": ">=10"
+    }
+}
