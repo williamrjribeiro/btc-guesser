@@ -31,9 +31,9 @@ class GameCore {
       this._currentPrice.value = priceData;
       this._state.value = 'running';
     } catch (error) {
-      console.error('Failed to fetch initial crypto price:', error);
       this._currentPrice.value = null;
-      this._state.value = 'gameover'; // Or a dedicated error state
+      this._state.value = 'gameover';
+      throw error;
     }
   }
 
