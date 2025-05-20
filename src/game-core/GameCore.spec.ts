@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, type MockedFunction } from 'vitest';
+import { describe, it, expect, vi, type MockedFunction, beforeEach, afterEach } from 'vitest';
 
 import GameCore, { type CryptoPrice, type CryptoPriceFetcher } from './GameCore';
 
@@ -19,42 +19,82 @@ describe('GameCore', () => {
   });
 
   describe('start', () => {
-    it('transitions from initialized to running, fetches price, and sets currentPrice', async () => {
+    beforeEach(() => {
+      vi.useFakeTimers();
+    });
+
+    afterEach(() => {
+      vi.useRealTimers();
+    });
+
+    it('transitions to running state, starts polling price fetching, and updates currentPrice', async () => {
       const mockFetcher = getPriceFetcherMock();
       const game = new GameCore(mockFetcher);
 
-      await game.start();
+      game.start();
+      expect(game.state.value).toEqual('blocked');
+      expect(game.currentPrice.value).toBeNull();
+
+      vi.runAllTimers();
+
+      await vi.waitUntil(() => game.state.value === 'running');
 
       expect(mockFetcher).toHaveBeenCalledWith('BTC');
       expect(game.currentPrice.value).toEqual(defaultPrice);
-      expect(game.state.value).toEqual('running');
     });
 
-    it('transitions to gameover and currentPrice is null when price fetch fails', async () => {
-      const fetchError = new Error('Fetch failed');
-      const mockFetcher = getPriceFetcherMock();
-      mockFetcher.mockClear();
-      mockFetcher.mockRejectedValue(fetchError);
+    describe('when price fetch fails three times in a row', () => {
+      it('transitions to gameover and currentPrice is null', async () => {
+        const logSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
 
-      const game = new GameCore(mockFetcher);
+        // Neat trick to make test wait for the fetch to fail
+        let fetchCount = 0;
+        const fetchError = new Error('Fetch failed');
+        const mockFetcher = getPriceFetcherMock();
+        mockFetcher.mockClear();
+        mockFetcher.mockImplementation(async () => {
+          fetchCount++;
+          throw fetchError;
+        });
 
-      await expect(game.start()).rejects.toThrow(fetchError);
+        const game = new GameCore(mockFetcher);
+        game.start();
 
-      expect(mockFetcher).toHaveBeenCalledWith('BTC');
-      expect(game.currentPrice.value).toBeNull();
-      expect(game.state.value).toEqual('gameover');
+        // First failure
+        vi.runAllTimers();
+        expect(mockFetcher).toHaveBeenCalledTimes(1);
+        expect(game.state.value).toEqual('blocked');
+        await vi.waitUntil(() => fetchCount === 1);
+
+        // Second failure
+        vi.runAllTimers();
+        await vi.waitUntil(() => fetchCount === 2);
+        expect(game.state.value).toEqual('blocked');
+        expect(mockFetcher).toHaveBeenCalledTimes(2);
+
+        // Third failure - should trigger ERROR event
+        vi.runAllTimers();
+        await vi.waitUntil(() => fetchCount === 3);
+        expect(game.state.value).toEqual('error');
+
+        expect(mockFetcher).toHaveBeenCalledTimes(3);
+        expect(game.currentPrice.value).toBeNull();
+        expect(logSpy).toHaveBeenCalledTimes(1);
+      });
     });
 
     it('does nothing when already in running state', async () => {
       const mockFetcher = getPriceFetcherMock();
       const game = new GameCore(mockFetcher);
 
-      await game.start();
+      game.start();
+      vi.runAllTimers();
+      await vi.waitUntil(() => game.state.value === 'running');
 
       expect(game.state.value).toEqual('running');
       expect(mockFetcher).toHaveBeenCalledTimes(1);
 
-      await game.start(); // Attempt to start again
+      game.start(); // Attempt to start again
 
       expect(game.state.value).toEqual('running');
       expect(mockFetcher).toHaveBeenCalledTimes(1);
@@ -65,9 +105,12 @@ describe('GameCore', () => {
       const mockFetcher = getPriceFetcherMock();
       const game = new GameCore(mockFetcher);
 
-      await game.start();
+      game.start();
+      vi.runAllTimers();
+      await vi.waitUntil(() => game.state.value === 'running');
+
       game.stop();
-      await game.start();
+      game.start();
 
       expect(game.state.value).toEqual('gameover');
       expect(mockFetcher).toHaveBeenCalledTimes(1);
@@ -75,30 +118,55 @@ describe('GameCore', () => {
   });
 
   describe('stop', () => {
-    it('transitions from running to gameover state', async () => {
-      const game = new GameCore(getPriceFetcherMock());
+    beforeEach(() => {
+      vi.useFakeTimers();
+    });
 
-      await game.start();
+    afterEach(() => {
+      vi.useRealTimers();
+    });
+
+    it('transitions from running to gameover state and stops polling', async () => {
+      const mockFetcher = getPriceFetcherMock();
+      const game = new GameCore(mockFetcher);
+
+      game.start();
+      vi.runAllTimers();
+      await vi.waitUntil(() => game.state.value === 'running');
+
+      expect(mockFetcher).toHaveBeenCalledTimes(1);
       game.stop();
-
       expect(game.state.value).toEqual('gameover');
+
+      // Run timers again to verify no more polling occurs
+      vi.runAllTimers();
+      expect(mockFetcher).toHaveBeenCalledTimes(1);
     });
 
     it('does nothing when not in running state', () => {
       const game = new GameCore(getPriceFetcherMock());
       const initialState = game.state.value;
-
       game.stop();
-
       expect(game.state.value).toEqual(initialState);
     });
   });
 
   describe('restart', () => {
+    beforeEach(() => {
+      vi.useFakeTimers();
+    });
+
+    afterEach(() => {
+      vi.useRealTimers();
+    });
+
     it('transitions from gameover to initialized state and clears internal state', async () => {
       const game = new GameCore(getPriceFetcherMock());
 
-      await game.start();
+      game.start();
+      vi.runAllTimers();
+      await vi.waitUntil(() => game.state.value === 'running');
+
       game.stop();
       expect(game.state.value).toEqual('gameover');
 

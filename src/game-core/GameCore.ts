@@ -1,6 +1,7 @@
 import { Signal, signal, computed } from '@preact/signals';
+import Pollinator from 'pollinator';
 
-type GameState = 'initialized' | 'running' | 'gameover';
+type GameState = 'initialized' | 'blocked' | 'running' | 'gameover' | 'error';
 
 export type CryptoPrice = {
   name: string;
@@ -13,36 +14,48 @@ export type CryptoPriceFetcher = (cryptoName: string) => Promise<CryptoPrice>;
 class GameCore {
   private _state: Signal<GameState>;
   public readonly state = computed(() => this._state.value);
-  private _currentPrice = signal<CryptoPrice | null>(null);
+
+  private _currentPrice: Signal<CryptoPrice | null>;
   public readonly currentPrice = computed(() => this._currentPrice.value);
+
+  private poller: Pollinator;
 
   constructor(private readonly cryptoPriceFetcher: CryptoPriceFetcher) {
     this._state = signal('initialized');
+    this._currentPrice = signal(null);
+
+    this.poller = new Pollinator(
+      () => {
+        this._state.value = 'blocked';
+        return this.cryptoPriceFetcher('BTC');
+      },
+      { failRetryCount: 2 },
+    );
+
+    this.poller.on(Pollinator.Event.POLL, (...price: unknown[]) => {
+      this._currentPrice.value = price[0] as CryptoPrice;
+      this._state.value = 'running';
+    });
+
+    this.poller.on(Pollinator.Event.ERROR, (...args) => {
+      console.error('[GameCore] could not fetch price:', ...args);
+      this._currentPrice.value = null;
+      this._state.value = 'error';
+    });
   }
 
-  public async start() {
+  public start() {
     if (this._state.value !== 'initialized') {
       return;
     }
-
-    try {
-      // Assuming 'BTC' for now, this could be configurable
-      const priceData = await this.cryptoPriceFetcher('BTC');
-      this._currentPrice.value = priceData;
-      this._state.value = 'running';
-    } catch (error) {
-      this._currentPrice.value = null;
-      this._state.value = 'gameover';
-      throw error;
-    }
+    this.poller.start();
   }
 
   public stop() {
     if (this._state.value !== 'running') {
       return;
     }
-    // In a real game, 'stop' might mean something else, like pausing or finishing a round.
-    // For now, it transitions to gameover.
+    this.poller.stop();
     this._state.value = 'gameover';
   }
 

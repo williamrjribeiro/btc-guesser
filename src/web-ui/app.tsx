@@ -1,5 +1,6 @@
+import type { Signal } from '@preact/signals';
 import { mockCryptoPriceFetcher } from '../adapters/MockCryptoFetcher';
-import GameCore from '../game-core/GameCore';
+import GameCore, { type CryptoPrice } from '../game-core/GameCore';
 import './app.css';
 
 interface BaseScreenProps {
@@ -8,9 +9,8 @@ interface BaseScreenProps {
 
 type StartScreenProps = BaseScreenProps;
 
-interface GameLoopScreenProps extends BaseScreenProps {
-  cryptoName: string;
-  price: number;
+interface GameLoopScreenProps {
+  gameCore: GameCore;
 }
 
 type GameOverScreenProps = BaseScreenProps;
@@ -21,22 +21,16 @@ export function App() {
   const renderScreen = () => {
     switch (gameCore.state.value) {
       case 'initialized':
-        return <StartScreen onActionClick={() => gameCore.start()} />;
-      case 'running': {
-        const currentPrice = gameCore.currentPrice.value;
-        if (!currentPrice) {
-          // This case should ideally not happen if start() fetches price before setting state to 'running'
-          // Or, we can show a loading indicator
-          return <div>Loading price...</div>;
-        }
         return (
-          <GameLoopScreen
-            cryptoName={currentPrice.name}
-            price={currentPrice.price}
-            onActionClick={() => gameCore.stop()}
+          <StartScreen
+            onActionClick={() => {
+              gameCore.start();
+            }}
           />
         );
-      }
+      case 'running':
+      case 'blocked':
+        return <GameLoopScreen gameCore={gameCore} />;
       case 'gameover':
         return <GameOverScreen onActionClick={() => gameCore.restart()} />;
       default:
@@ -60,21 +54,32 @@ const StartScreen = ({ onActionClick }: StartScreenProps) => (
   </div>
 );
 
-const GameLoopScreen = ({ cryptoName, price, onActionClick }: GameLoopScreenProps) => {
-  const userLocale = navigator.language || 'en-US'; // Fallback to en-US
-  const formattedPrice = new Intl.NumberFormat(userLocale, {
-    style: 'currency',
-    currency: 'USD',
-  }).format(price);
+const GameLoopScreen = ({ gameCore }: GameLoopScreenProps) => (
+  <div>
+    <h2 className={gameCore.state.value === 'blocked' ? 'blocked-header' : ''}>Game Loop Screen</h2>
+    <CryptoPrice currentPrice={gameCore.currentPrice} />
+    <button onClick={() => gameCore.stop()}>Quit</button>
+  </div>
+);
+
+const userLocale = navigator.language || 'en-US';
+const priceFormatter = new Intl.NumberFormat(userLocale, {
+  style: 'currency',
+  currency: 'USD',
+});
+
+const CryptoPrice = ({ currentPrice }: { currentPrice: Signal<CryptoPrice | null> }) => {
+  if (!currentPrice.value) {
+    return <div>Loading price...</div>;
+  }
+
+  const formattedPrice = priceFormatter.format(currentPrice.value.price);
 
   return (
-    <div>
-      <h2>Game Loop Screen</h2>
-      <h3>
-        Current {cryptoName} Price: {formattedPrice}
-      </h3>
-      <button onClick={onActionClick}>Quit</button>
-    </div>
+    <h3 style={{ display: 'flex', justifyContent: 'space-around' }}>
+      <span>Current {currentPrice.value.name} Price:</span>
+      <span>{formattedPrice}</span>
+    </h3>
   );
 };
 
