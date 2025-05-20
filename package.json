@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@preact/signals": "^2.0.4",
+    "pollinator": "^0.3.2",
     "preact": "^10.26.5",
     "sst": "^3.14.28"
   },

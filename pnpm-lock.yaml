@@ -10,6 +10,9 @@ importers:
       '@preact/signals':
         specifier: ^2.0.4
         version: 2.0.4(preact@10.26.6)
+      pollinator:
+        specifier: ^0.3.2
+        version: 0.3.2
       preact:
         specifier: ^10.26.5
         version: 10.26.6
@@ -1706,6 +1709,10 @@ packages:
     resolution:
       { integrity: sha512-ZBmhE1C9LcPoH9XZSdwiPtbPHZROwAnMy+kIFQVrnMCxY4Cudlz3gBOpzilgc0jOgRaiT3sIWfpMomW2ar2orQ== }
     engines: { node: '>=16.20.0' }
+
+  pollinator@0.3.2:
+    resolution:
+      { integrity: sha512-X7po0JdjpEzPnH7ZQHZyQ4OaA0ww77QTuhD9xWKeiONZw5YCR8BfpMM7CgO8Rmd6YCoJRm15GOjKDWrjF7cCaw== }
 
   possible-typed-array-names@1.1.0:
     resolution:
@@ -3546,6 +3553,8 @@ snapshots:
   picomatch@4.0.2: {}
 
   pkce-challenge@4.1.0: {}
+
+  pollinator@0.3.2: {}
 
   possible-typed-array-names@1.1.0: {}
 
