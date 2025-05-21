@@ -1,7 +1,7 @@
 import { Signal, signal, computed } from '@preact/signals';
 import Pollinator from 'pollinator';
 
-type GameState = 'initialized' | 'blocked' | 'running' | 'gameover' | 'error';
+export type GameState = 'initialized' | 'blocked' | 'running' | 'gameover' | 'error';
 
 export type CryptoPrice = {
   name: string;
