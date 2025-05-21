@@ -41,16 +41,23 @@ export function App() {
 
   return (
     <div>
-      <h1>BTC Guesser</h1>
+      <h1>🍀₿TC Guesser🍀</h1>
       {renderScreen()}
     </div>
   );
 }
 
 const StartScreen = ({ onActionClick }: StartScreenProps) => (
-  <div>
-    <h2>Start Screen</h2>
-    <button onClick={onActionClick}>Play</button>
+  <div className="start">
+    <div className="start__rules">
+      <div className="start__rules-item">🎯 Guess if Bitcoin's price will go up or down in 1 minute</div>
+      <div className="start__rules-item">💰 Score +1 for correct guesses, -1 for wrong ones</div>
+      <div className="start__rules-item">⏳ One guess at a time - patience is a virtue!</div>
+      <div className="start__rules-item">💾 Your score is saved - come back anytime!</div>
+    </div>
+    <button className="start__play" onClick={onActionClick}>
+      🤞 Let's Play! 🤞
+    </button>
   </div>
 );
 
