@@ -5,8 +5,15 @@ export type GameState = 'initialized' | 'blocked' | 'running' | 'gameover' | 'er
 
 export type CryptoPrice = {
   name: string;
-  price: number;
+  ammount: number;
   timestamp: number;
+};
+
+export type CryptoPriceGuess = {
+  price: CryptoPrice;
+  guess: GuessDirection | null;
+  isCorrect: boolean | undefined;
+  direction: GuessDirection | null;
 };
 
 export type CryptoPriceFetcher = (cryptoName: string) => Promise<CryptoPrice>;
@@ -23,6 +30,9 @@ class GameCore {
   private _currentPrice: Signal<CryptoPrice | null>;
   public readonly currentPrice = computed(() => this._currentPrice.value);
 
+  private _priceHistory: Signal<CryptoPriceGuess[]>;
+  public readonly priceHistory = computed(() => this._priceHistory.value);
+
   private _guess: Signal<GuessDirection | null>;
   public readonly currentGuess = computed(() => this._guess.value);
   public readonly hasGuessed = computed(() => this.currentGuess.value !== null);
@@ -34,7 +44,7 @@ class GameCore {
     this._state = signal('initialized');
     this._currentPrice = signal(null);
     this._guess = signal(null);
-
+    this._priceHistory = signal([]);
     this.poller = new Pollinator(
       () => {
         this._state.value = 'blocked';
@@ -44,7 +54,25 @@ class GameCore {
     );
 
     this.poller.on(Pollinator.Event.POLL, (...price: unknown[]) => {
-      this._currentPrice.value = price[0] as CryptoPrice;
+      const newPrice = price[0] as CryptoPrice;
+      this._currentPrice.value = newPrice;
+      const lastPrice = this.priceHistory.value[0];
+      let isCorrect: boolean | undefined;
+      let direction: GuessDirection | null = null;
+
+      if (lastPrice) {
+        // TODO: what if the price is the same? Bug in the specs? ¯\_(ツ)_/¯
+        direction = lastPrice.price.ammount > newPrice.ammount ? GuessDirection.Down : GuessDirection.Up;
+        if (this.hasGuessed.value) {
+          isCorrect = this.currentGuess.value === direction;
+        }
+      }
+
+      this._priceHistory.value = [
+        { price: newPrice, guess: this.currentGuess.value, isCorrect, direction },
+        ...this._priceHistory.value,
+      ];
+
       this._state.value = 'running';
       this._guess.value = null;
     });
@@ -79,6 +107,7 @@ class GameCore {
 
     this._currentPrice.value = null;
     this._guess.value = null;
+    this._priceHistory.value = [];
     this._state.value = 'initialized';
   }
 

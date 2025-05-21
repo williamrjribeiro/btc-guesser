@@ -5,7 +5,7 @@ export const mockCryptoPriceFetcher: CryptoPriceFetcher = async (cryptoName: str
     setTimeout(() => {
       resolve({
         name: cryptoName,
-        price: Math.random() * 10000,
+        ammount: Math.random() * 10000,
         timestamp: Date.now(),
       });
     }, 200); // fake network delay
