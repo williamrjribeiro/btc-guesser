@@ -49,7 +49,7 @@ describe('GameCore', () => {
 
     describe('when price fetch fails three times in a row', () => {
       it('transitions to gameover and currentPrice is null', async () => {
-        const logSpy = vi.spyOn(console, 'error').mockImplementation(() => { });
+        const logSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
 
         // Neat trick to make test wait for the fetch to fail
         let fetchCount = 0;
