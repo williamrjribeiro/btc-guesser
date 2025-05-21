@@ -5,7 +5,7 @@ import GameCore, { GuessDirection, type CryptoPrice, type CryptoPriceFetcher } f
 describe('GameCore', () => {
   const defaultPrice: CryptoPrice = {
     name: 'BTC',
-    price: 100,
+    ammount: 100,
     timestamp: Date.now(),
   };
 
@@ -28,10 +28,11 @@ describe('GameCore', () => {
     expect(game.currentGuess.value).toBeNull();
     expect(game.canGuess.value).toBe(false);
     expect(game.hasGuessed.value).toBe(false);
+    expect(game.priceHistory.value).toEqual([]);
   });
 
   describe('start', () => {
-    it('transitions to running state, starts polling price fetching, and updates currentPrice', async () => {
+    it('transitions to running state, starts polling price fetching, updates currentPrice and price history', async () => {
       const mockFetcher = getPriceFetcherMock();
       const game = new GameCore(mockFetcher);
 
@@ -45,6 +46,14 @@ describe('GameCore', () => {
 
       expect(mockFetcher).toHaveBeenCalledWith('BTC');
       expect(game.currentPrice.value).toEqual(defaultPrice);
+      expect(game.priceHistory.value).toEqual([
+        {
+          price: defaultPrice,
+          guess: null,
+          isCorrect: undefined,
+          direction: null,
+        },
+      ]);
     });
 
     describe('when price fetch fails three times in a row', () => {
@@ -159,8 +168,13 @@ describe('GameCore', () => {
       expect(game.state.value).toEqual('gameover');
 
       game.restart();
+
       expect(game.state.value).toEqual('initialized');
       expect(game.currentPrice.value).toBeNull();
+      expect(game.currentGuess.value).toBeNull();
+      expect(game.canGuess.value).toBe(false);
+      expect(game.hasGuessed.value).toBe(false);
+      expect(game.priceHistory.value).toEqual([]);
     });
 
     it('does nothing when not in gameover state', () => {
@@ -191,12 +205,46 @@ describe('GameCore', () => {
       expect(game.hasGuessed.value).toBe(false);
     });
 
-    it('sets the current guess until the next price fetch', async () => {
-      const game = new GameCore(getPriceFetcherMock());
+    it('sets the current guess, updates price history guess, direction and correct value until the next price fetch', async () => {
+      const mockFetcher = getPriceFetcherMock();
+
+      const expectedFirstPriceGuess = {
+        price: defaultPrice,
+        guess: null,
+        isCorrect: undefined,
+        direction: null,
+      };
+
+      const expectedSecondPriceGuess = {
+        price: {
+          ...defaultPrice,
+          ammount: 200,
+        },
+        guess: GuessDirection.Up,
+        isCorrect: true,
+        direction: GuessDirection.Up,
+      };
+
+      const expectedThirdPriceGuess = {
+        price: {
+          ...defaultPrice,
+          ammount: 300,
+        },
+        guess: GuessDirection.Down,
+        isCorrect: false,
+        direction: GuessDirection.Up,
+      };
+
+      mockFetcher
+        .mockResolvedValueOnce(defaultPrice)
+        .mockResolvedValueOnce(expectedSecondPriceGuess.price)
+        .mockResolvedValueOnce(expectedThirdPriceGuess.price);
+
+      const game = new GameCore(mockFetcher);
 
       game.start();
 
-      // Wait for the first price fetch
+      // Wait for the first price fetch - €100
       vi.runAllTimers();
       await vi.waitUntil(() => game.state.value === 'running');
 
@@ -204,29 +252,59 @@ describe('GameCore', () => {
       expect(game.canGuess.value).toBe(true);
       expect(game.hasGuessed.value).toBe(false);
 
+      // First guess is CORRECT: 200 > 100
       game.guess(GuessDirection.Up);
 
-      // Validate first guess
+      // Validate state of first guess
       expect(game.currentGuess.value).toEqual(GuessDirection.Up);
       expect(game.canGuess.value).toBe(false);
       expect(game.hasGuessed.value).toBe(true);
 
-      // Wait for the next price fetch
+      // History will be updated once the next price is available
+      expect(game.priceHistory.value).toEqual([
+        {
+          price: defaultPrice,
+          guess: null,
+          isCorrect: undefined,
+          direction: null,
+        },
+      ]);
+
+      // Wait for the next price fetch - €200
       vi.runAllTimers();
       await vi.waitUntil(() => game.state.value === 'running');
 
-      // Validate guess reset
+      // Validate guess reset between price fetches
       expect(game.currentGuess.value).toBeNull();
       expect(game.canGuess.value).toBe(true);
       expect(game.hasGuessed.value).toBe(false);
 
-      // Second guess
+      // Validate price guess history
+      expect(game.priceHistory.value).toEqual([expectedSecondPriceGuess, expectedFirstPriceGuess]);
+
+      // Second guess is WRONG: 300 > 200
       game.guess(GuessDirection.Down);
 
-      // Validate second guess
+      // Validate state of second guess
       expect(game.currentGuess.value).toEqual(GuessDirection.Down);
       expect(game.canGuess.value).toBe(false);
       expect(game.hasGuessed.value).toBe(true);
+
+      // Wait for the next price fetch - €300
+      vi.runAllTimers();
+      await vi.waitUntil(() => game.state.value === 'running');
+
+      // Validate guess reset between price fetches
+      expect(game.currentGuess.value).toBeNull();
+      expect(game.canGuess.value).toBe(true);
+      expect(game.hasGuessed.value).toBe(false);
+
+      // Validate price guess history
+      expect(game.priceHistory.value).toEqual([
+        expectedThirdPriceGuess,
+        expectedSecondPriceGuess,
+        expectedFirstPriceGuess,
+      ]);
     });
 
     it('does nothing when already guessed', async () => {
