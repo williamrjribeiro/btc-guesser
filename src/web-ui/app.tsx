@@ -55,11 +55,12 @@ const StartScreen = ({ onActionClick }: StartScreenProps) => (
 );
 
 const GameLoopScreen = ({ gameCore }: GameLoopScreenProps) => (
-  <div>
-    <h2 className={gameCore.state.value === 'blocked' ? 'blocked-header' : ''}>Game Loop Screen</h2>
+  <div className="game">
     <CryptoPrice currentPrice={gameCore.currentPrice} />
     <GuessInput gameCore={gameCore} />
-    <button onClick={() => gameCore.stop()}>Quit</button>
+    <button className="game__quit" onClick={() => gameCore.stop()}>
+      Quit
+    </button>
   </div>
 );
 
@@ -72,20 +73,28 @@ const GuessButton = ({
   disabled: boolean;
   onClick?: (direction: GuessDirection) => void;
 }) => (
-  <button disabled={disabled} onClick={() => onClick?.(direction)}>
+  <button
+    className={`guess-button guess-button--${direction === GuessDirection.Up ? 'up' : 'down'}`}
+    disabled={disabled}
+    onClick={() => onClick?.(direction)}
+  >
     {direction == GuessDirection.Up ? 'Goes up ⬆️' : 'Goes down ⬇️'}
   </button>
 );
 
 const GuessInput = ({ gameCore }: { gameCore: GameCore }) => {
   if (gameCore.hasGuessed.value) {
-    return <GuessButton direction={gameCore.currentGuess.value!} disabled={true} />;
+    return (
+      <div className="game__buttons">
+        <GuessButton direction={gameCore.currentGuess.value!} disabled={true} />
+      </div>
+    );
   }
   const disableGuess = !gameCore.canGuess.value;
 
   return (
     <div>
-      <div className="guess-buttons">
+      <div className="game__buttons">
         <GuessButton
           direction={GuessDirection.Up}
           disabled={disableGuess}
@@ -96,9 +105,6 @@ const GuessInput = ({ gameCore }: { gameCore: GameCore }) => {
           disabled={disableGuess}
           onClick={(direction) => gameCore.guess(direction)}
         />
-      </div>
-      <div>
-        <span>Current guess: {gameCore.currentGuess?.value}</span>
       </div>
     </div>
   );
@@ -118,10 +124,10 @@ const CryptoPrice = ({ currentPrice }: { currentPrice: Signal<CryptoPrice | null
   const formattedPrice = priceFormatter.format(currentPrice.value.price);
 
   return (
-    <h3 style={{ display: 'flex', justifyContent: 'space-around' }}>
+    <div className="game__price">
       <span>Current {currentPrice.value.name} Price:</span>
       <span>{formattedPrice}</span>
-    </h3>
+    </div>
   );
 };
 
