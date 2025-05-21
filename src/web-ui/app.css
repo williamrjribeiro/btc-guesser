@@ -9,9 +9,11 @@
   height: 6em;
   padding: 1.5em;
 }
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
+
 .logo.preact:hover {
   filter: drop-shadow(0 0 2em #673ab8aa);
 }
@@ -27,4 +29,9 @@
 .blocked-header {
   text-decoration: line-through;
   opacity: 0.75;
+}
+
+.guess-buttons {
+  display: flex;
+  gap: 1rem;
 }
