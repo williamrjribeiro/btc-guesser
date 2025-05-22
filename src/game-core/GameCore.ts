@@ -65,7 +65,7 @@ class GameCore {
     this._priceHistory = signal([]);
     this._score = signal(0);
     this.config = Object.freeze({ ...config });
-    
+
     this.poller = new Pollinator(
       () => {
         this._state.value = 'blocked';
