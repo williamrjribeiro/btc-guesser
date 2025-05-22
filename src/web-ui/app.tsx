@@ -1,7 +1,7 @@
 import { mockCryptoPriceFetcher } from '../adapters/MockCryptoFetcher';
 import GameCore, { type GameState } from '../game-core/GameCore';
 import './app.css';
-import { StartScreen } from './components/StartScreen';
+import { GameStartScreen } from './components/GameStartScreen';
 import { GameLoopScreen } from './components/GameLoopScreen';
 import { GameOverScreen } from './components/GameOverScreen';
 import type { ComponentType } from 'preact';
@@ -13,7 +13,7 @@ export interface GameScreenProps {
 }
 
 const SCREENS: Record<GameState, ComponentType<GameScreenProps>> = {
-  initialized: StartScreen,
+  initialized: GameStartScreen,
   running: GameLoopScreen,
   blocked: GameLoopScreen,
   gameover: GameOverScreen,
