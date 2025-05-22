@@ -32,6 +32,53 @@ describe('GameCore', () => {
     expect(game.score.value).toBe(0);
   });
 
+  describe('config', () => {
+    it('uses default config values when no config is provided', async () => {
+      const mockFetcher = getPriceFetcherMock();
+      const game = new GameCore(mockFetcher);
+      
+      game.start();
+      vi.runAllTimers();
+      await vi.waitUntil(() => game.state.value === 'running');
+      
+      // Default cryptoName should be "BTC"
+      expect(mockFetcher).toHaveBeenCalledWith('BTC');
+      
+      // Check if the default poolInterval (5000ms) is respected
+      mockFetcher.mockClear();
+      vi.advanceTimersByTime(4999);
+      expect(mockFetcher).not.toHaveBeenCalled();
+      
+      vi.advanceTimersByTime(1);
+      expect(mockFetcher).toHaveBeenCalledTimes(1);
+    });
+    
+    it('uses custom config values when provided', async () => {
+      const mockFetcher = getPriceFetcherMock();
+      const customConfig = {
+        poolInterval: 10000,
+        cryptoName: 'ETH'
+      };
+      
+      const game = new GameCore(mockFetcher, customConfig);
+      
+      game.start();
+      vi.runAllTimers();
+      await vi.waitUntil(() => game.state.value === 'running');
+      
+      // Custom cryptoName should be "ETH"
+      expect(mockFetcher).toHaveBeenCalledWith('ETH');
+      
+      // Check if the custom poolInterval (10000ms) is respected
+      mockFetcher.mockClear();
+      vi.advanceTimersByTime(9999);
+      expect(mockFetcher).not.toHaveBeenCalled();
+      
+      vi.advanceTimersByTime(1);
+      expect(mockFetcher).toHaveBeenCalledTimes(1);
+    });
+  });
+
   describe('start', () => {
     it('transitions to running state, starts polling price fetching, updates currentPrice and price history', async () => {
       const mockFetcher = getPriceFetcherMock();
