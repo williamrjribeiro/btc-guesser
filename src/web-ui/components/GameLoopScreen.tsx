@@ -7,17 +7,16 @@ import GameCore, {
 import type { GameScreenProps } from '../app';
 
 export const GameLoopScreen = ({ gameCore }: GameScreenProps) => (
-  <div className="game">
+  <div className="game-loop">
     <ScoreDisplay gameCore={gameCore} />
     <CryptoPrice currentPrice={gameCore.currentPrice} />
     <GuessInput gameCore={gameCore} />
     <PriceGuessHistory priceHistory={gameCore.priceHistory} />
-    <button className="game__quit" onClick={() => gameCore.stop()}>
+    <button className="game-loop__quit" onClick={() => gameCore.stop()}>
       Quit
     </button>
   </div>
 );
-
 
 const GuessButton = ({
   direction,
@@ -38,7 +37,7 @@ const GuessButton = ({
 );
 
 const ScoreDisplay = ({ gameCore }: { gameCore: GameCore }) => (
-  <div className="game__score">
+  <div className="game-loop__score">
     <span>💰 Score:</span>
     <span>{gameCore.score.value}</span>
   </div>
@@ -58,7 +57,7 @@ const CryptoPrice = ({ currentPrice }: { currentPrice: Signal<CryptoPriceType | 
   const formattedPrice = priceFormatter.format(currentPrice.value.ammount);
 
   return (
-    <div className="game__price">
+    <div className="game-loop__price">
       <span>Current {currentPrice.value.name} Price:</span>
       <span>{formattedPrice}</span>
     </div>
@@ -68,7 +67,7 @@ const CryptoPrice = ({ currentPrice }: { currentPrice: Signal<CryptoPriceType | 
 const GuessInput = ({ gameCore }: { gameCore: GameCore }) => {
   if (gameCore.hasGuessed.value) {
     return (
-      <div className="game__buttons">
+      <div className="game-loop__buttons">
         <GuessButton direction={gameCore.currentGuess.value!} disabled={true} />
       </div>
     );
@@ -76,7 +75,8 @@ const GuessInput = ({ gameCore }: { gameCore: GameCore }) => {
   const disableGuess = !gameCore.canGuess.value;
 
   return (
-      <div className="game__buttons">
+    <div>
+      <div className="game-loop__buttons">
         <GuessButton
           direction={GuessDirection.Up}
           disabled={disableGuess}
@@ -88,29 +88,30 @@ const GuessInput = ({ gameCore }: { gameCore: GameCore }) => {
           onClick={(direction) => gameCore.guess(direction)}
         />
       </div>
+    </div>
   );
 };
 
 const PriceGuessHistory = ({ priceHistory }: { priceHistory: Signal<CryptoPriceGuess[]> }) => (
-  <div className="game__price-history">
+  <div className="game-loop__price-history">
     <h3>Price History</h3>
-    <div className="game__price-history__container">
-      <table className="game__price-history__table">
-        <thead className="game__price-history__thead">
+    <div className="game-loop__price-history__container">
+      <table className="game-loop__price-history__table">
+        <thead className="game-loop__price-history__thead">
           <tr>
-            <th className="game__price-history__th">Movement</th>
-            <th className="game__price-history__th">Result</th>
-            <th className="game__price-history__th">Price</th>
-            <th className="game__price-history__th">Time</th>
+            <th className="game-loop__price-history__th">Movement</th>
+            <th className="game-loop__price-history__th">Result</th>
+            <th className="game-loop__price-history__th">Price</th>
+            <th className="game-loop__price-history__th">Time</th>
           </tr>
         </thead>
         <tbody>
           {priceHistory.value.map((price) => (
             <tr key={price.price.timestamp}>
-              <td className="game__price-history__td">{price.direction === GuessDirection.Up ? '⬆️' : price.direction === GuessDirection.Down ? '⬇️' : '-'}</td>
-              <td className="game__price-history__td">{price.isCorrect === undefined ? '🐔' : price.isCorrect ? '✅' : '❌'}</td>
-              <td className="game__price-history__td">{priceFormatter.format(price.price.ammount)}</td>
-              <td className="game__price-history__td">{new Date(price.price.timestamp).toLocaleTimeString()}</td>
+              <td className="game-loop__price-history__td">{price.direction === GuessDirection.Up ? '⬆️' : price.direction === GuessDirection.Down ? '⬇️' : '-'}</td>
+              <td className="game-loop__price-history__td">{price.isCorrect === undefined ? '🐔' : price.isCorrect ? '✅' : '❌'}</td>
+              <td className="game-loop__price-history__td">{priceFormatter.format(price.price.ammount)}</td>
+              <td className="game-loop__price-history__td">{new Date(price.price.timestamp).toLocaleTimeString()}</td>
             </tr>
           ))}
         </tbody>

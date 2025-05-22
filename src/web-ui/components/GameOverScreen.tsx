@@ -38,15 +38,15 @@ const PriceGuessHistoryBreakdown = ({ priceHistory }: { priceHistory: ReadonlyAr
     <div className="game-over__breakdown">
       <h3>Your Guessing Performance</h3>
       <div className="game-over__stats">
-        <div className="game-over__stat">
+        <div className="game-over__stat game-over__stat--correct">
           <span>✅ Correct:</span>
           <span>{stats.correct}</span>
         </div>
-        <div className="game-over__stat">
+        <div className="game-over__stat game-over__stat--incorrect">
           <span>❌ Incorrect:</span>
           <span>{stats.incorrect}</span>
         </div>
-        <div className="game-over__stat">
+        <div className="game-over__stat game-over__stat--no-guess">
           <span>🐔 No Guess:</span>
           <span>{stats.noGuess}</span>
         </div>
