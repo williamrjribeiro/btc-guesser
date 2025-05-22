@@ -210,6 +210,31 @@
   background-color: #f8f9fa;
 }
 
+.game-loop__countdown {
+  font-size: 0.85rem;
+  margin: 0 0 0.5rem 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 140px;
+  box-sizing: border-box;
+  color: #6c757d;
+  font-family: monospace;
+  position: relative;
+  padding-bottom: 0.25rem;
+}
+
+.game-loop__countdown::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(to right, #9b59b6, #8e44ad);
+  border-radius: 1px;
+}
+
 /* ========================================
    GameOverScreen Block
    ======================================== */
