@@ -28,7 +28,7 @@ export type GameConfig = {
   cryptoName: string;
 };
 
-const DEFAULT_CONFIG: GameConfig = {
+const DEFAULT_CONFIG: Readonly<GameConfig> = {
   poolInterval: 5000,
   cryptoName: 'BTC',
 };
@@ -51,17 +51,21 @@ class GameCore {
   private _score: Signal<number>;
   public readonly score = computed(() => this._score.value);
 
+  public readonly config: Readonly<GameConfig>;
+
   private poller: Pollinator;
 
   constructor(
     private readonly cryptoPriceFetcher: CryptoPriceFetcher,
-    private readonly config: GameConfig = DEFAULT_CONFIG,
+    config: GameConfig = DEFAULT_CONFIG,
   ) {
     this._state = signal('initialized');
     this._currentPrice = signal(null);
     this._guess = signal(null);
     this._priceHistory = signal([]);
     this._score = signal(0);
+    this.config = Object.freeze({ ...config });
+    
     this.poller = new Pollinator(
       () => {
         this._state.value = 'blocked';
