@@ -8,9 +8,11 @@ import type { GameScreenProps } from '../app';
 
 export const GameLoopScreen = ({ gameCore }: GameScreenProps) => (
   <div className="game-loop">
-    <ScoreDisplay gameCore={gameCore} />
-    <CryptoPrice currentPrice={gameCore.currentPrice} />
-    <GuessInput gameCore={gameCore} />
+    <div className="game-loop__top-section">
+      <ScoreDisplay gameCore={gameCore} />
+      <CryptoPrice currentPrice={gameCore.currentPrice} />
+      <GuessInput gameCore={gameCore} />
+    </div>
     <PriceGuessHistory priceHistory={gameCore.priceHistory} />
     <button className="game-loop__quit" onClick={() => gameCore.stop()}>
       Quit
@@ -75,26 +77,23 @@ const GuessInput = ({ gameCore }: { gameCore: GameCore }) => {
   const disableGuess = !gameCore.canGuess.value;
 
   return (
-    <div>
-      <div className="game-loop__buttons">
-        <GuessButton
-          direction={GuessDirection.Up}
-          disabled={disableGuess}
-          onClick={(direction) => gameCore.guess(direction)}
-        />
-        <GuessButton
-          direction={GuessDirection.Down}
-          disabled={disableGuess}
-          onClick={(direction) => gameCore.guess(direction)}
-        />
-      </div>
+    <div className="game-loop__buttons">
+      <GuessButton
+        direction={GuessDirection.Up}
+        disabled={disableGuess}
+        onClick={(direction) => gameCore.guess(direction)}
+      />
+      <GuessButton
+        direction={GuessDirection.Down}
+        disabled={disableGuess}
+        onClick={(direction) => gameCore.guess(direction)}
+      />
     </div>
   );
 };
 
 const PriceGuessHistory = ({ priceHistory }: { priceHistory: Signal<CryptoPriceGuess[]> }) => (
   <div className="game-loop__price-history">
-    <h3>Price History</h3>
     <div className="game-loop__price-history__container">
       <table className="game-loop__price-history__table">
         <thead className="game-loop__price-history__thead">
