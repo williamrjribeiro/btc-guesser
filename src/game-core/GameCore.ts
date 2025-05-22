@@ -23,6 +23,16 @@ export enum GuessDirection {
   Down = 'down',
 }
 
+export type GameConfig = {
+  poolInterval: number;
+  cryptoName: string;
+};
+
+const DEFAULT_CONFIG: GameConfig = {
+  poolInterval: 5000,
+  cryptoName: 'BTC',
+};
+
 class GameCore {
   private _state: Signal<GameState>;
   public readonly state = computed(() => this._state.value);
@@ -43,7 +53,10 @@ class GameCore {
 
   private poller: Pollinator;
 
-  constructor(private readonly cryptoPriceFetcher: CryptoPriceFetcher) {
+  constructor(
+    private readonly cryptoPriceFetcher: CryptoPriceFetcher,
+    private readonly config: GameConfig = DEFAULT_CONFIG,
+  ) {
     this._state = signal('initialized');
     this._currentPrice = signal(null);
     this._guess = signal(null);
@@ -52,9 +65,9 @@ class GameCore {
     this.poller = new Pollinator(
       () => {
         this._state.value = 'blocked';
-        return this.cryptoPriceFetcher('BTC');
+        return this.cryptoPriceFetcher(this.config.cryptoName);
       },
-      { failRetryCount: 2 },
+      { failRetryCount: 2, delay: this.config.poolInterval },
     );
 
     this.poller.on(Pollinator.Event.POLL, (...price: unknown[]) => {
