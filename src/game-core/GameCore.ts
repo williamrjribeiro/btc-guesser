@@ -38,6 +38,9 @@ class GameCore {
   public readonly hasGuessed = computed(() => this.currentGuess.value !== null);
   public readonly canGuess = computed(() => this.state.value === 'running' && !this.hasGuessed.value);
 
+  private _score: Signal<number>;
+  public readonly score = computed(() => this._score.value);
+
   private poller: Pollinator;
 
   constructor(private readonly cryptoPriceFetcher: CryptoPriceFetcher) {
@@ -45,6 +48,7 @@ class GameCore {
     this._currentPrice = signal(null);
     this._guess = signal(null);
     this._priceHistory = signal([]);
+    this._score = signal(0);
     this.poller = new Pollinator(
       () => {
         this._state.value = 'blocked';
@@ -65,6 +69,12 @@ class GameCore {
         direction = lastPrice.price.ammount > newPrice.ammount ? GuessDirection.Down : GuessDirection.Up;
         if (this.hasGuessed.value) {
           isCorrect = this.currentGuess.value === direction;
+          // Update score based on guess correctness
+          if (isCorrect) {
+            this._score.value += 1;
+          } else {
+            this._score.value -= 1;
+          }
         }
       }
 
@@ -108,6 +118,7 @@ class GameCore {
     this._currentPrice.value = null;
     this._guess.value = null;
     this._priceHistory.value = [];
+    this._score.value = 0;
     this._state.value = 'initialized';
   }
 
