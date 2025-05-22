@@ -222,3 +222,49 @@
   transform: translateY(0);
   box-shadow: 0 2px 4px rgba(46, 204, 113, 0.2);
 }
+
+.game-over__breakdown {
+  width: 100%;
+  max-width: 400px;
+  margin: 0.5rem 0;
+}
+
+.game-over__breakdown h3 {
+  font-size: 1.4rem;
+  color: #2c3e50;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.game-over__stats {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 1.2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.game-over__stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.2rem;
+  padding: 0.5rem 0.8rem;
+  border-radius: 6px;
+  background-color: white;
+  border-left: 4px solid #ddd;
+}
+
+.game-over__stat:nth-child(1) {
+  border-left-color: #2ecc71;
+}
+
+.game-over__stat:nth-child(2) {
+  border-left-color: #e74c3c;
+}
+
+.game-over__stat:nth-child(3) {
+  border-left-color: #f39c12;
+}
