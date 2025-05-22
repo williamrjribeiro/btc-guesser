@@ -107,8 +107,12 @@ const PriceGuessHistory = ({ priceHistory }: { priceHistory: Signal<CryptoPriceG
         <tbody>
           {priceHistory.value.map((price) => (
             <tr key={price.price.timestamp}>
-              <td className="game-loop__price-history__td">{price.direction === GuessDirection.Up ? '⬆️' : price.direction === GuessDirection.Down ? '⬇️' : '-'}</td>
-              <td className="game-loop__price-history__td">{price.isCorrect === undefined ? '🐔' : price.isCorrect ? '✅' : '❌'}</td>
+              <td className="game-loop__price-history__td">
+                {price.direction === GuessDirection.Up ? '⬆️' : price.direction === GuessDirection.Down ? '⬇️' : '-'}
+              </td>
+              <td className="game-loop__price-history__td">
+                {price.isCorrect === undefined ? '🐔' : price.isCorrect ? '✅' : '❌'}
+              </td>
               <td className="game-loop__price-history__td">{priceFormatter.format(price.price.ammount)}</td>
               <td className="game-loop__price-history__td">{new Date(price.price.timestamp).toLocaleTimeString()}</td>
             </tr>

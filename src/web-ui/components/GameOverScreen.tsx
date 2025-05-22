@@ -4,7 +4,7 @@ import type { CryptoPriceGuess } from '../../game-core/GameCore';
 export const GameOverScreen = ({ gameCore }: GameScreenProps) => {
   const score = gameCore.score.value;
   const isPositive = score >= 0;
-  
+
   return (
     <div className="game-over">
       <h2 className="game-over__title">Game Over</h2>
@@ -13,11 +13,12 @@ export const GameOverScreen = ({ gameCore }: GameScreenProps) => {
         <span>{isPositive ? '🤑' : '💸'}</span>
       </div>
       <PriceGuessHistoryBreakdown priceHistory={gameCore.priceHistory.value} />
-      <button className="game-over__restart" onClick={() => gameCore.restart()}>Play Again</button>
+      <button className="game-over__restart" onClick={() => gameCore.restart()}>
+        Play Again
+      </button>
     </div>
   );
 };
-
 
 const PriceGuessHistoryBreakdown = ({ priceHistory }: { priceHistory: ReadonlyArray<CryptoPriceGuess> }) => {
   const stats = priceHistory.reduce(
@@ -31,7 +32,7 @@ const PriceGuessHistoryBreakdown = ({ priceHistory }: { priceHistory: ReadonlyAr
       }
       return acc;
     },
-    { correct: 0, incorrect: 0, noGuess: 0 }
+    { correct: 0, incorrect: 0, noGuess: 0 },
   );
 
   return (
