@@ -24,9 +24,9 @@ export function App() {
   const Screen = SCREENS[gameCore.state.value as GameState];
 
   return (
-    <div>
-      <h1>🍀₿TC Guesser🍀</h1>
+    <>
+      <h1>🍀 ₿TC Guesser 🍀</h1>
       <Screen gameCore={gameCore} />
-    </div>
+    </>
   );
 }
