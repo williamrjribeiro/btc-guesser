@@ -21,7 +21,7 @@ describe('GameCore', () => {
     vi.useRealTimers();
   });
 
-  it('is created with the initialized state, no price history, and no guess', () => {
+  it('is created with the initialized state, no price history, no score, and no guess', () => {
     const game = new GameCore(getPriceFetcherMock());
     expect(game.state.value).toEqual('initialized');
     expect(game.currentPrice.value).toBeNull();
@@ -29,6 +29,7 @@ describe('GameCore', () => {
     expect(game.canGuess.value).toBe(false);
     expect(game.hasGuessed.value).toBe(false);
     expect(game.priceHistory.value).toEqual([]);
+    expect(game.score.value).toBe(0);
   });
 
   describe('start', () => {
@@ -175,6 +176,7 @@ describe('GameCore', () => {
       expect(game.canGuess.value).toBe(false);
       expect(game.hasGuessed.value).toBe(false);
       expect(game.priceHistory.value).toEqual([]);
+      expect(game.score.value).toBe(0);
     });
 
     it('does nothing when not in gameover state', () => {
@@ -327,6 +329,93 @@ describe('GameCore', () => {
       expect(game.currentGuess.value).toEqual(GuessDirection.Up);
       expect(game.canGuess.value).toBe(false);
       expect(game.hasGuessed.value).toBe(true);
+    });
+  });
+
+  describe('score', () => {
+    it('increments by 1 for each correct guess', async () => {
+      // Setup price changes: 100 -> 200 -> 300
+      const mockFetcher = getPriceFetcherMock();
+      mockFetcher
+        .mockResolvedValueOnce({ ...defaultPrice, ammount: 100 })
+        .mockResolvedValueOnce({ ...defaultPrice, ammount: 200 })
+        .mockResolvedValueOnce({ ...defaultPrice, ammount: 300 });
+
+      const game = new GameCore(mockFetcher);
+      game.start();
+
+      // Initial price fetch (100)
+      vi.runAllTimers();
+      await vi.waitUntil(() => game.state.value === 'running');
+      expect(game.score.value).toBe(0);
+
+      // First correct guess (UP)
+      game.guess(GuessDirection.Up);
+      vi.runAllTimers();
+      await vi.waitUntil(() => game.currentGuess.value === null);
+      expect(game.score.value).toBe(1);
+
+      // Second correct guess (UP)
+      game.guess(GuessDirection.Up);
+      vi.runAllTimers();
+      await vi.waitUntil(() => game.currentGuess.value === null);
+      expect(game.score.value).toBe(2);
+    });
+
+    it('decrements by 1 for each incorrect guess', async () => {
+      // Setup price changes: 100 -> 50 -> 25
+      const mockFetcher = getPriceFetcherMock();
+      mockFetcher
+        .mockResolvedValueOnce({ ...defaultPrice, ammount: 100 })
+        .mockResolvedValueOnce({ ...defaultPrice, ammount: 50 })
+        .mockResolvedValueOnce({ ...defaultPrice, ammount: 25 });
+
+      const game = new GameCore(mockFetcher);
+      game.start();
+
+      // Initial price fetch (100)
+      vi.runAllTimers();
+      await vi.waitUntil(() => game.state.value === 'running');
+      expect(game.score.value).toBe(0);
+
+      // First incorrect guess (UP when price goes DOWN)
+      game.guess(GuessDirection.Up);
+      vi.runAllTimers();
+      await vi.waitUntil(() => game.currentGuess.value === null);
+      expect(game.score.value).toBe(-1);
+
+      // Second incorrect guess (UP when price goes DOWN)
+      game.guess(GuessDirection.Up);
+      vi.runAllTimers();
+      await vi.waitUntil(() => game.currentGuess.value === null);
+      expect(game.score.value).toBe(-2);
+    });
+
+    it('does not change score when no guesses are made', async () => {
+      // Setup price changes: 100 -> 200 -> 300
+      const mockFetcher = getPriceFetcherMock();
+      mockFetcher
+        .mockResolvedValueOnce({ ...defaultPrice, ammount: 100 })
+        .mockResolvedValueOnce({ ...defaultPrice, ammount: 200 })
+        .mockResolvedValueOnce({ ...defaultPrice, ammount: 300 });
+
+      const game = new GameCore(mockFetcher);
+      game.start();
+
+      // Initial price fetch (100)
+      vi.runAllTimers();
+      await vi.waitUntil(() => game.state.value === 'running');
+      expect(game.score.value).toBe(0);
+
+      // First price change without guess
+      vi.runAllTimers();
+      await vi.waitUntil(() => game.currentPrice.value?.ammount === 200);
+      expect(game.score.value).toBe(0);
+
+      // Second price change without guess
+      vi.runAllTimers();
+      await vi.waitUntil(() => game.currentPrice.value?.ammount === 300);
+      expect(game.score.value).toBe(0);
     });
   });
 });

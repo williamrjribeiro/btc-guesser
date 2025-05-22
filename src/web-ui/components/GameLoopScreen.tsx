@@ -30,6 +30,13 @@ const GuessButton = ({
   </button>
 );
 
+const ScoreDisplay = ({ gameCore }: { gameCore: GameCore }) => (
+  <div className="game__score">
+    <span>💰 Score:</span>
+    <span>{gameCore.score.value}</span>
+  </div>
+);
+
 const CryptoPrice = ({ currentPrice }: { currentPrice: Signal<CryptoPriceType | null> }) => {
   if (!currentPrice.value) {
     return <div>Loading price...</div>;
@@ -105,6 +112,7 @@ const GuessResult = ({ price }: { price: CryptoPriceGuess }) => {
 
 export const GameLoopScreen = ({ gameCore }: GameScreenProps) => (
   <div className="game">
+    <ScoreDisplay gameCore={gameCore} />
     <CryptoPrice currentPrice={gameCore.currentPrice} />
     <GuessInput gameCore={gameCore} />
     <PriceGuessHistory priceHistory={gameCore.priceHistory} />

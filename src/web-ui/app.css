@@ -90,6 +90,23 @@
   box-sizing: border-box;
 }
 
+.game__score {
+  font-size: 1.6rem;
+  font-weight: bold;
+  padding: 0.8rem 1.2rem;
+  background-color: #ffd700;
+  border-radius: 12px;
+  margin: 1rem 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  color: #333;
+  border: 2px solid #e6c200;
+}
+
 .game__buttons {
   display: flex;
   gap: 1rem;
