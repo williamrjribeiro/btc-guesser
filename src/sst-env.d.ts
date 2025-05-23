@@ -2,7 +2,9 @@
 /* tslint:disable */
 /* eslint-disable */
 /// <reference types="vite/client" />
-interface ImportMetaEnv {}
+interface ImportMetaEnv {
+  readonly VITE_API_URL: string
+}
 interface ImportMeta {
-  readonly env: ImportMetaEnv;
+  readonly env: ImportMetaEnv
 }

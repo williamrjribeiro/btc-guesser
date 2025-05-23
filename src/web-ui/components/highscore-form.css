@@ -1,0 +1,63 @@
+/* Highscore Form Component */
+.highscore-form {
+    display: flex;
+    gap: 0;
+    margin-top: 1rem;
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .highscore-form__input {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: 2px solid #FFD700;
+    border-right: none;
+    border-radius: 8px 0 0 8px;
+    font-size: 1rem;
+    transition: border-color 0.2s ease;
+    outline: none;
+    background: #FFF9E6;
+    color: #8B7500;
+  }
+  
+  .highscore-form__input:focus {
+    outline: 2px solid #FFB90F;
+  }
+  
+  .highscore-form__submit {
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(to bottom, #FFD700, #D4AF37);
+    color: #2A2A2A;
+    border: 1px solid #D4AF37;
+    border-radius: 0 8px 8px 0;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .highscore-form__submit:hover {
+    background: linear-gradient(to bottom, #FFDF00, #E5C100);
+  }
+  
+  .highscore-form__submit:disabled {
+    background: #EEE;
+    color: #666;
+    cursor: not-allowed;
+  }
+
+  .highscore-form__success {
+    text-align: center;
+    padding: 1.5rem;
+    background: linear-gradient(45deg, #FFD700, #D4AF37);
+    border-radius: 8px;
+    color: #2A2A2A;
+    margin-top: 1rem;
+    font-weight: 600;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .highscore-form__success br {
+    margin: 0.5rem 0;
+    display: block;
+    content: '';
+  }
