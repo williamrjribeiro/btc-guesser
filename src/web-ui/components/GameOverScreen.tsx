@@ -1,12 +1,13 @@
 import { useSignal, useSignalEffect } from '@preact/signals';
 import type { GameScreenProps } from '../app';
 import type { CryptoPriceGuess } from '../../game-core/GameCore';
-import { getHighScore } from '../../adapters/MockHighScoreAPI';
+import { getHighScore as getHighScoreReal, saveHighScore } from '../../adapters/RealHighScoreAPI';
 import type { HighScore } from '../../game-core/HighScoreAPI';
 import { Table, TableContainer, TableHead, TableRow, TableHeader, TableCell } from './Table';
 import { Button } from './Button';
 import './score.css';
 import './breakdown.css';
+import './highscore-form.css';
 
 export const GameOverScreen = ({ gameCore }: GameScreenProps) => {
   const score = gameCore.score.value;
@@ -62,7 +63,62 @@ const PriceGuessHistoryBreakdown = ({ priceHistory }: { priceHistory: ReadonlyAr
           <span>{stats.noGuess}</span>
         </div>
       </div>
+      <HighscoreForm priceHistory={priceHistory} />
     </div>
+  );
+};
+
+const HighscoreForm = ({ priceHistory }: { priceHistory: ReadonlyArray<CryptoPriceGuess> }) => {
+  const username = useSignal('');
+  const isSubmitting = useSignal(false);
+  const hasSubmitted = useSignal(false);
+  const submittedUsername = useSignal('');
+
+  const handleSubmit = async (e: Event) => {
+    e.preventDefault();
+    if (username.value.trim().length === 0) return;
+
+    try {
+      isSubmitting.value = true;
+      await saveHighScore([...priceHistory], username.value.trim());
+      submittedUsername.value = username.value.trim();
+      hasSubmitted.value = true;
+      username.value = '';
+    } catch (error) {
+      console.error('Failed to submit high score:', error);
+    } finally {
+      isSubmitting.value = false;
+    }
+  };
+
+  if (hasSubmitted.value) {
+    return (
+      <div className="highscore-form__success">
+        Nice one, <strong>{submittedUsername.value}</strong>!<br/>
+        Try not to lose it all next time 😏
+      </div>
+    );
+  }
+
+  return (
+    <form className="highscore-form" onSubmit={handleSubmit}>
+      <input
+        type="text"
+        className="highscore-form__input"
+        placeholder="Enter your name"
+        maxLength={4}
+        value={username.value}
+        onInput={(e) => (username.value = (e.target as HTMLInputElement).value)}
+        disabled={isSubmitting.value}
+      />
+      <button
+        type="submit"
+        className="highscore-form__submit"
+        disabled={isSubmitting.value || username.value.trim().length === 0}
+      >
+        {isSubmitting.value ? 'Submitting...' : 'Submit'}
+      </button>
+    </form>
   );
 };
 
@@ -74,7 +130,10 @@ const HighScoresTable = () => {
     const fetchHighScores = async () => {
       try {
         isLoading.value = true;
-        const scores = await getHighScore();
+        // const scores = await getHighScore();
+        const scores = await getHighScoreReal();
+        console.log('[HighScoresTable] scores', scores);
+        // console.log('scoresReal', scoresReal);
         highScores.value = scores;
       } catch (error) {
         console.error('Failed to fetch high scores:', error);
