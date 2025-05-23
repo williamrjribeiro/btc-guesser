@@ -3,6 +3,7 @@ import type { GameScreenProps } from '../app';
 import type { CryptoPriceGuess } from '../../game-core/GameCore';
 import { getHighScore } from '../../adapters/MockHighScoreAPI';
 import type { HighScore } from '../../game-core/HighScoreAPI';
+import { Table, TableContainer, TableHead, TableRow, TableHeader, TableCell } from './Table';
 
 export const GameOverScreen = ({ gameCore }: GameScreenProps) => {
   const score = gameCore.score.value;
@@ -90,19 +91,17 @@ const HighScoresTable = () => {
           Loading high scores...
         </div>
       ) : (
-        <div className="table__container table__container--elevated">
-          <table className="table table--elevated">
-            <thead className="table__head table__head--dark table__head--sticky">
-              <tr>
-                <th className="table__header table__header--styled">Rank</th>
-                <th className="table__header table__header--styled">Player</th>
-                <th className="table__header table__header--styled">Score</th>
-                <th className="table__header table__header--styled">✅</th>
-                <th className="table__header table__header--styled">❌</th>
-                <th className="table__header table__header--styled">🐔</th>
-                <th className="table__header table__header--styled">Date</th>
-              </tr>
-            </thead>
+        <TableContainer elevated>
+          <Table elevated>
+            <TableHead dark sticky>
+              <TableHeader styled>Rank</TableHeader>
+              <TableHeader styled>Player</TableHeader>
+              <TableHeader styled>Score</TableHeader>
+              <TableHeader styled>✅</TableHeader>
+              <TableHeader styled>❌</TableHeader>
+              <TableHeader styled>🐔</TableHeader>
+              <TableHeader styled>Date</TableHeader>
+            </TableHead>
             <tbody>
               {highScores.value.map((highScore: HighScore, index: number) => (
                 <HighScoreRow 
@@ -112,8 +111,8 @@ const HighScoresTable = () => {
                 />
               ))}
             </tbody>
-          </table>
-        </div>
+          </Table>
+        </TableContainer>
       )}
     </div>
   );
@@ -123,17 +122,20 @@ const HighScoreRow = ({ highScore, rank }: { highScore: HighScore; rank: number 
   const stats = parseSerializedHistory(highScore.serializedHistory);
   
   return (
-    <tr className="table__row">
-      <td className="table__cell">{rank}</td>
-      <td className="table__cell">{highScore.username}</td>
-      <td className={`table__cell ${highScore.score >= 0 ? 'table__cell--score-positive' : 'table__cell--score-negative'}`}>
+    <TableRow>
+      <TableCell>{rank}</TableCell>
+      <TableCell>{highScore.username}</TableCell>
+      <TableCell 
+        scorePositive={highScore.score >= 0} 
+        scoreNegative={highScore.score < 0}
+      >
         {highScore.score}
-      </td>
-      <td className="table__cell">{stats.correct}</td>
-      <td className="table__cell">{stats.wrong}</td>
-      <td className="table__cell">{stats.noGuess}</td>
-      <td className="table__cell">{new Date(highScore.date).toLocaleDateString()}</td>
-    </tr>
+      </TableCell>
+      <TableCell>{stats.correct}</TableCell>
+      <TableCell>{stats.wrong}</TableCell>
+      <TableCell>{stats.noGuess}</TableCell>
+      <TableCell>{new Date(highScore.date).toLocaleDateString()}</TableCell>
+    </TableRow>
   );
 };
 
