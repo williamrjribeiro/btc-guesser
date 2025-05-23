@@ -19,21 +19,11 @@ export const Button = ({
   type = 'button',
   ...props
 }: ButtonProps & Omit<JSX.HTMLAttributes<HTMLButtonElement>, 'onClick'>) => {
-  const classes = [
-    'cta',
-    variant && `cta--${variant}`,
-    className,
-  ].filter(Boolean).join(' ');
+  const classes = ['cta', variant && `cta--${variant}`, className].filter(Boolean).join(' ');
 
   return (
-    <button
-      className={classes}
-      onClick={onClick}
-      disabled={disabled}
-      type={type}
-      {...props}
-    >
+    <button className={classes} onClick={onClick} disabled={disabled} type={type} {...props}>
       {children}
     </button>
   );
-}; 
+};

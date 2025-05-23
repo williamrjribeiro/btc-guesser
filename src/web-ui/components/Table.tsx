@@ -36,17 +36,9 @@ interface TableCellProps {
 }
 
 export const Table = ({ children, elevated = false, compact = false }: TableProps) => {
-  const classes = [
-    'table',
-    elevated && 'table--elevated',
-    compact && 'table--compact',
-  ].filter(Boolean).join(' ');
+  const classes = ['table', elevated && 'table--elevated', compact && 'table--compact'].filter(Boolean).join(' ');
 
-  return (
-    <table className={classes}>
-      {children}
-    </table>
-  );
+  return <table className={classes}>{children}</table>;
 };
 
 export const TableContainer = ({ children, scrollable = false, elevated = false }: TableContainerProps) => {
@@ -54,62 +46,49 @@ export const TableContainer = ({ children, scrollable = false, elevated = false 
     'table__container',
     scrollable && 'table__container--scrollable',
     elevated && 'table__container--elevated',
-  ].filter(Boolean).join(' ');
+  ]
+    .filter(Boolean)
+    .join(' ');
 
-  return (
-    <div className={classes}>
-      {children}
-    </div>
-  );
+  return <div className={classes}>{children}</div>;
 };
 
 export const TableHead = ({ children, sticky = false, dark = false }: TableHeadProps) => {
-  const classes = [
-    'table__head',
-    sticky && 'table__head--sticky',
-    dark && 'table__head--dark',
-  ].filter(Boolean).join(' ');
+  const classes = ['table__head', sticky && 'table__head--sticky', dark && 'table__head--dark']
+    .filter(Boolean)
+    .join(' ');
 
   return (
     <thead className={classes}>
-      <tr>
-        {children}
-      </tr>
+      <tr>{children}</tr>
     </thead>
   );
 };
 
-export const TableRow = ({ children }: TableRowProps) => (
-  <tr className="table__row">
-    {children}
-  </tr>
-);
+export const TableRow = ({ children }: TableRowProps) => <tr className="table__row">{children}</tr>;
 
 export const TableHeader = ({ children, compact = false, styled = false }: TableHeaderProps) => {
-  const classes = [
-    'table__header',
-    compact && 'table__header--compact',
-    styled && 'table__header--styled',
-  ].filter(Boolean).join(' ');
+  const classes = ['table__header', compact && 'table__header--compact', styled && 'table__header--styled']
+    .filter(Boolean)
+    .join(' ');
 
-  return (
-    <th className={classes}>
-      {children}
-    </th>
-  );
+  return <th className={classes}>{children}</th>;
 };
 
-export const TableCell = ({ children, compact = false, scorePositive = false, scoreNegative = false }: TableCellProps) => {
+export const TableCell = ({
+  children,
+  compact = false,
+  scorePositive = false,
+  scoreNegative = false,
+}: TableCellProps) => {
   const classes = [
     'table__cell',
     compact && 'table__cell--compact',
     scorePositive && 'table__cell--score-positive',
     scoreNegative && 'table__cell--score-negative',
-  ].filter(Boolean).join(' ');
+  ]
+    .filter(Boolean)
+    .join(' ');
 
-  return (
-    <td className={classes}>
-      {children}
-    </td>
-  );
-}; 
+  return <td className={classes}>{children}</td>;
+};
