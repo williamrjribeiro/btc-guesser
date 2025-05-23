@@ -94,7 +94,7 @@ const HighscoreForm = ({ priceHistory }: { priceHistory: ReadonlyArray<CryptoPri
   if (hasSubmitted.value) {
     return (
       <div className="highscore-form__success">
-        Nice one, <strong>{submittedUsername.value}</strong>!<br/>
+        Nice one, <strong>{submittedUsername.value}</strong>!<br />
         Try not to lose it all next time 😏
       </div>
     );

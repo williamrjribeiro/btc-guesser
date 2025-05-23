@@ -17,7 +17,7 @@ export default $config({
   },
   async run() {
     const api = new sst.aws.ApiGatewayV2('Api');
-    
+
     api.route('GET /api/highscore', 'src/adapters/rest/handler.getHighscore');
     api.route('POST /api/highscore', 'src/adapters/rest/handler.postHighscore');
 
@@ -31,7 +31,7 @@ export default $config({
       },
     });
 
-    return { 
+    return {
       web: web.url,
       api: api.url,
     };

@@ -17,19 +17,14 @@ export const getHighscore: APIGatewayProxyHandlerV2 = async (event) => {
 
 export const postHighscore: APIGatewayProxyHandlerV2 = async (event) => {
   console.log('[postHighscore] event:', JSON.stringify(event, null, 2));
-  
+
   try {
     if (!event.body) {
       throw new Error('Request body is required');
     }
 
     const payload = JSON.parse(event.body);
-    const highScore = new HighScore(
-      payload._serializedHistory,
-      payload.username,
-      new Date(payload.date),
-      uuidv4()
-    );
+    const highScore = new HighScore(payload._serializedHistory, payload.username, new Date(payload.date), uuidv4());
 
     return {
       statusCode: 201,
