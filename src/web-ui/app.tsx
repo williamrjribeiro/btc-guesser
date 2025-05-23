@@ -1,12 +1,20 @@
 import { mockCryptoPriceFetcher } from '../adapters/MockCryptoFetcher';
-import GameCore, { type GameState } from '../game-core/GameCore';
+import GameCore, { GuessDirection, type GameSession, type GameState } from '../game-core/GameCore';
 import './app.css';
 import { GameStartScreen } from './components/GameStartScreen';
 import { GameLoopScreen } from './components/GameLoopScreen';
 import { GameOverScreen } from './components/GameOverScreen';
 import type { ComponentType } from 'preact';
 
-const gameCore = new GameCore(mockCryptoPriceFetcher);
+
+const TestSession: GameSession = {
+  priceGuessHistory: [
+    { price: { name: 'BTC', ammount: 100, timestamp: Date.now() }, guess: GuessDirection.Up, isCorrect: true, direction: GuessDirection.Up },
+    { price: { name: 'BTC', ammount: 90, timestamp: Date.now() }, guess: GuessDirection.Down, isCorrect: true, direction: GuessDirection.Down },
+  ],
+};
+
+const gameCore = new GameCore(mockCryptoPriceFetcher, { poolInterval: 5000, cryptoName: 'BTC', session: TestSession });
 
 export interface GameScreenProps {
   gameCore: GameCore;

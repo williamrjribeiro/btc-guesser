@@ -3,6 +3,10 @@ import Pollinator from 'pollinator';
 
 export type GameState = 'initialized' | 'blocked' | 'running' | 'gameover' | 'error';
 
+export type GameSession = {
+  priceGuessHistory: CryptoPriceGuess[];
+};
+
 export type CryptoPrice = {
   name: string;
   ammount: number;
@@ -26,11 +30,13 @@ export enum GuessDirection {
 export type GameConfig = {
   poolInterval: number;
   cryptoName: string;
+  session: GameSession | null;
 };
 
 const DEFAULT_CONFIG: Readonly<GameConfig> = {
   poolInterval: 5000,
   cryptoName: 'BTC',
+  session: null,
 };
 
 class GameCore {
@@ -48,8 +54,12 @@ class GameCore {
   public readonly hasGuessed = computed(() => this.currentGuess.value !== null);
   public readonly canGuess = computed(() => this.state.value === 'running' && !this.hasGuessed.value);
 
-  private _score: Signal<number>;
-  public readonly score = computed(() => this._score.value);
+  public readonly score = computed(() =>
+    this.priceHistory.value.reduce(
+      (score, guess) => score + (guess.isCorrect === undefined ? 0 : guess.isCorrect ? 1 : -1),
+      0,
+    ),
+  );
 
   public readonly config: Readonly<GameConfig>;
 
@@ -62,8 +72,7 @@ class GameCore {
     this._state = signal('initialized');
     this._currentPrice = signal(null);
     this._guess = signal(null);
-    this._priceHistory = signal([]);
-    this._score = signal(0);
+    this._priceHistory = signal(config.session?.priceGuessHistory ?? []);
     this.config = Object.freeze({ ...config });
 
     this.poller = new Pollinator(
@@ -86,12 +95,6 @@ class GameCore {
         direction = lastPrice.price.ammount > newPrice.ammount ? GuessDirection.Down : GuessDirection.Up;
         if (this.hasGuessed.value) {
           isCorrect = this.currentGuess.value === direction;
-          // Update score based on guess correctness
-          if (isCorrect) {
-            this._score.value += 1;
-          } else {
-            this._score.value -= 1;
-          }
         }
       }
 
@@ -135,7 +138,6 @@ class GameCore {
     this._currentPrice.value = null;
     this._guess.value = null;
     this._priceHistory.value = [];
-    this._score.value = 0;
     this._state.value = 'initialized';
   }
 

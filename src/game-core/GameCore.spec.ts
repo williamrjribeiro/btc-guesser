@@ -1,6 +1,12 @@
 import { describe, it, expect, vi, type MockedFunction, beforeEach, afterEach } from 'vitest';
 
-import GameCore, { GuessDirection, type CryptoPrice, type CryptoPriceFetcher, type GameConfig } from './GameCore';
+import GameCore, {
+  GuessDirection,
+  type CryptoPrice,
+  type CryptoPriceFetcher,
+  type CryptoPriceGuess,
+  type GameConfig,
+} from './GameCore';
 
 describe('GameCore', () => {
   const defaultPrice: CryptoPrice = {
@@ -33,6 +39,7 @@ describe('GameCore', () => {
     expect(game.config).toEqual({
       poolInterval: 5000,
       cryptoName: 'BTC',
+      session: null,
     });
   });
 
@@ -42,6 +49,7 @@ describe('GameCore', () => {
       const customConfig: GameConfig = {
         poolInterval: 10000,
         cryptoName: 'ETH',
+        session: null,
       };
       const game = new GameCore(mockFetcher, customConfig);
 
@@ -58,6 +66,37 @@ describe('GameCore', () => {
 
       vi.advanceTimersByTime(200);
       expect(mockFetcher).toHaveBeenCalledTimes(2);
+    });
+
+    it('initializes price history from provided GameSession', () => {
+      const mockFetcher = getPriceFetcherMock();
+      const priceGuessHistory: CryptoPriceGuess[] = [
+        {
+          price: { name: 'BTC', ammount: 100, timestamp: Date.now() },
+          guess: GuessDirection.Up,
+          isCorrect: true,
+          direction: GuessDirection.Up,
+        },
+        {
+          price: { name: 'BTC', ammount: 90, timestamp: Date.now() },
+          guess: GuessDirection.Down,
+          isCorrect: true,
+          direction: GuessDirection.Down,
+        },
+      ];
+      const customConfig: GameConfig = {
+        poolInterval: 5000,
+        cryptoName: 'BTC',
+        session: { priceGuessHistory },
+      };
+      const game = new GameCore(mockFetcher, customConfig);
+
+      expect(game.priceHistory.value).toEqual(priceGuessHistory);
+      expect(game.state.value).toEqual('initialized');
+      expect(game.currentPrice.value).toBeNull();
+      expect(game.currentGuess.value).toBeNull();
+      // The score must be correct based on the price guess history
+      expect(game.score.value).toBe(2);
     });
   });
 
