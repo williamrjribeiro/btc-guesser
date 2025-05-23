@@ -1,4 +1,5 @@
 import type { GameScreenProps } from '../app';
+import { Button } from './Button';
 
 export const GameStartScreen = ({ gameCore }: GameScreenProps) => (
   <div className="game-start">
@@ -9,13 +10,13 @@ export const GameStartScreen = ({ gameCore }: GameScreenProps) => (
       <div className="game-start__rules-item">💾 Your score is saved - come back anytime!</div>
     </div>
     <div className="game-start__buttons">
-      <button className="cta cta--primary" onClick={() => gameCore.start(true)}>
+      <Button variant="primary" onClick={() => gameCore.start(true)}>
         🤞 New Game 🤞
-      </button>
+      </Button>
       {gameCore.priceHistory.value.length > 0 && (
-        <button className="cta cta--secondary" onClick={() => gameCore.start()}>
+        <Button variant="secondary" onClick={() => gameCore.start()}>
           🎮 Continue 🎮
-        </button>
+        </Button>
       )}
     </div>
   </div>
