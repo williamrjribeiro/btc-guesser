@@ -7,6 +7,7 @@ import GameCore, {
 } from '../../game-core/GameCore';
 import type { GameScreenProps } from '../app';
 import { Table, TableContainer, TableHead, TableRow, TableHeader, TableCell } from './Table';
+import { Button } from './Button';
 
 export const GameLoopScreen = ({ gameCore }: GameScreenProps) => (
   <div className="game-loop">
@@ -17,9 +18,9 @@ export const GameLoopScreen = ({ gameCore }: GameScreenProps) => (
       <GuessInput gameCore={gameCore} />
     </div>
     <PriceGuessHistory priceHistory={gameCore.priceHistory} />
-    <button className="cta cta--danger" onClick={() => gameCore.stop()}>
+    <Button variant="danger" onClick={() => gameCore.stop()}>
       Quit
-    </button>
+    </Button>
   </div>
 );
 
