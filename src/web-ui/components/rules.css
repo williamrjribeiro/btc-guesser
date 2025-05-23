@@ -1,0 +1,23 @@
+/* ========================================
+   Rules Block (BEM Component)
+   ======================================== */
+.rules {
+  background-color: #f8f9fa;
+  padding: 1.25rem;
+  border-radius: 8px;
+  text-align: left;
+  line-height: 1.5;
+  color: #2c3e50;
+  width: 100%;
+}
+
+.rules__item {
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.rules__item:last-child {
+  margin-bottom: 0;
+} 

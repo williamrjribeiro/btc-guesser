@@ -8,6 +8,9 @@ import GameCore, {
 import type { GameScreenProps } from '../app';
 import { Table, TableContainer, TableHead, TableRow, TableHeader, TableCell } from './Table';
 import { Button } from './Button';
+import './score.css';
+import './price.css';
+import './countdown.css';
 
 export const GameLoopScreen = ({ gameCore }: GameScreenProps) => (
   <div className="game-loop">
@@ -43,7 +46,7 @@ const GuessButton = ({
 );
 
 const ScoreDisplay = ({ gameCore }: { gameCore: GameCore }) => (
-  <div className="game-loop__score">
+  <div className="score score--game-loop">
     <span>💰 Score:</span>
     <span>{gameCore.score.value}</span>
   </div>
@@ -63,7 +66,7 @@ const CryptoPrice = ({ currentPrice }: { currentPrice: Signal<CryptoPriceType | 
   const formattedPrice = priceFormatter.format(currentPrice.value.ammount);
 
   return (
-    <div className="game-loop__price">
+    <div className="price">
       <span>Current {currentPrice.value.name} Price:</span>
       <span>{formattedPrice}</span>
     </div>
@@ -157,7 +160,7 @@ const CountdownTimer = ({ gameCore }: { gameCore: GameCore }) => {
   });
 
   return (
-    <div className="game-loop__countdown">
+    <div className="countdown">
       <span>Next price: {displayValue}s</span>
     </div>
   );
