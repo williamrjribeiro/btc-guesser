@@ -90,17 +90,17 @@ const HighScoresTable = () => {
           Loading high scores...
         </div>
       ) : (
-        <div className="game-over__high-scores__container">
-          <table className="game-over__high-scores__table">
-            <thead>
+        <div className="table__container table__container--elevated">
+          <table className="table table--elevated">
+            <thead className="table__head table__head--dark table__head--sticky">
               <tr>
-                <th>Rank</th>
-                <th>Player</th>
-                <th>Score</th>
-                <th>✅</th>
-                <th>❌</th>
-                <th>🐔</th>
-                <th>Date</th>
+                <th className="table__header table__header--styled">Rank</th>
+                <th className="table__header table__header--styled">Player</th>
+                <th className="table__header table__header--styled">Score</th>
+                <th className="table__header table__header--styled">✅</th>
+                <th className="table__header table__header--styled">❌</th>
+                <th className="table__header table__header--styled">🐔</th>
+                <th className="table__header table__header--styled">Date</th>
               </tr>
             </thead>
             <tbody>
@@ -123,16 +123,16 @@ const HighScoreRow = ({ highScore, rank }: { highScore: HighScore; rank: number 
   const stats = parseSerializedHistory(highScore.serializedHistory);
   
   return (
-    <tr>
-      <td>{rank}</td>
-      <td>{highScore.username}</td>
-      <td className={highScore.score >= 0 ? 'score--positive' : 'score--negative'}>
+    <tr className="table__row">
+      <td className="table__cell">{rank}</td>
+      <td className="table__cell">{highScore.username}</td>
+      <td className={`table__cell ${highScore.score >= 0 ? 'table__cell--score-positive' : 'table__cell--score-negative'}`}>
         {highScore.score}
       </td>
-      <td>{stats.correct}</td>
-      <td>{stats.wrong}</td>
-      <td>{stats.noGuess}</td>
-      <td>{new Date(highScore.date).toLocaleDateString()}</td>
+      <td className="table__cell">{stats.correct}</td>
+      <td className="table__cell">{stats.wrong}</td>
+      <td className="table__cell">{stats.noGuess}</td>
+      <td className="table__cell">{new Date(highScore.date).toLocaleDateString()}</td>
     </tr>
   );
 };
