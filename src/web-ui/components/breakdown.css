@@ -1,0 +1,52 @@
+/* ========================================
+   Breakdown Block (BEM Component)
+   ======================================== */
+.breakdown {
+  width: 100%;
+  max-width: 350px;
+  margin: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 280px;
+}
+
+.breakdown__title {
+  font-size: 1.3rem;
+  color: #2c3e50;
+  margin: 0 0 0.75rem 0;
+  text-align: center;
+}
+
+.breakdown__stats {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.breakdown__stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.1rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  background-color: white;
+  border-left: 4px solid #ddd;
+}
+
+.breakdown__stat--correct {
+  border-left-color: #2ecc71;
+}
+
+.breakdown__stat--incorrect {
+  border-left-color: #e74c3c;
+}
+
+.breakdown__stat--no-guess {
+  border-left-color: #f39c12;
+} 

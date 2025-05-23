@@ -5,6 +5,8 @@ import { getHighScore } from '../../adapters/MockHighScoreAPI';
 import type { HighScore } from '../../game-core/HighScoreAPI';
 import { Table, TableContainer, TableHead, TableRow, TableHeader, TableCell } from './Table';
 import { Button } from './Button';
+import './score.css';
+import './breakdown.css';
 
 export const GameOverScreen = ({ gameCore }: GameScreenProps) => {
   const score = gameCore.score.value;
@@ -13,7 +15,7 @@ export const GameOverScreen = ({ gameCore }: GameScreenProps) => {
   return (
     <div className="game-over">
       <h2 className="game-over__title">Game Over</h2>
-      <div className={`game-over__score ${isPositive ? 'game-over__score--positive' : 'game-over__score--negative'}`}>
+      <div className={`score score--game-over ${isPositive ? 'score--positive' : 'score--negative'}`}>
         <span>Final Score: {score}</span>
         <span>{isPositive ? '🤑' : '💸'}</span>
       </div>
@@ -44,18 +46,18 @@ const PriceGuessHistoryBreakdown = ({ priceHistory }: { priceHistory: ReadonlyAr
   );
 
   return (
-    <div className="game-over__breakdown">
-      <h3>Your Performance</h3>
-      <div className="game-over__stats">
-        <div className="game-over__stat game-over__stat--correct">
+    <div className="breakdown">
+      <h3 className="breakdown__title">Your Performance</h3>
+      <div className="breakdown__stats">
+        <div className="breakdown__stat breakdown__stat--correct">
           <span>✅ Correct:</span>
           <span>{stats.correct}</span>
         </div>
-        <div className="game-over__stat game-over__stat--incorrect">
+        <div className="breakdown__stat breakdown__stat--incorrect">
           <span>❌ Incorrect:</span>
           <span>{stats.incorrect}</span>
         </div>
-        <div className="game-over__stat game-over__stat--no-guess">
+        <div className="breakdown__stat breakdown__stat--no-guess">
           <span>🐔 No Guess:</span>
           <span>{stats.noGuess}</span>
         </div>

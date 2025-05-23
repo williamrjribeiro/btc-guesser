@@ -112,32 +112,13 @@
   gap: 1.5rem;
 }
 
-.game-start__rules {
-  background-color: #f8f9fa;
-  padding: 1.25rem;
-  border-radius: 8px;
-  text-align: left;
-  line-height: 1.5;
-  color: #2c3e50;
-  width: 100%;
-}
-
-.game-start__rules-item {
-  margin-bottom: 0.5rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.game-start__rules-item:last-child {
-  margin-bottom: 0;
-}
-
 .game-start__buttons {
   display: flex;
   gap: 1rem;
   margin-top: auto;
 }
+
+
 
 /* ========================================
    GameLoopScreen Block
@@ -158,40 +139,9 @@
   gap: 2rem;
 }
 
-.game-loop__price {
-  font-size: 1.5rem;
-  font-weight: bold;
-  padding: 1rem;
-  background-color: #e8f4fc;
-  border-radius: 8px;
-  margin: 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  box-sizing: border-box;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
-  border: 2px solid #b3d9ff;
-  color: #1a5276;
-}
 
-.game-loop__score {
-  font-size: 1.2rem;
-  font-weight: bold;
-  padding: 0.6rem 0.9rem;
-  background-color: #fff8e1;
-  border-radius: 8px;
-  margin: 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: fit-content;
-  box-sizing: border-box;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  color: #5d4037;
-  border: 1px solid #ffe082;
-  gap: 1rem;
-}
+
+
 
 .game-loop__buttons {
   display: flex;
@@ -221,30 +171,7 @@
 
 
 
-.game-loop__countdown {
-  font-size: 0.85rem;
-  margin: 0 0 0.5rem 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 140px;
-  box-sizing: border-box;
-  color: #6c757d;
-  font-family: monospace;
-  position: relative;
-  padding-bottom: 0.25rem;
-}
 
-.game-loop__countdown::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background: linear-gradient(to right, #9b59b6, #8e44ad);
-  border-radius: 1px;
-}
 
 /* ========================================
    GameOverScreen Block
@@ -255,31 +182,7 @@
   gap: 4rem;
 }
 
-.game-over__score {
-  font-size: 1.6rem;
-  font-weight: bold;
-  padding: 1.25rem 1.75rem;
-  border-radius: 12px;
-  width: 100%;
-  max-width: 400px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-}
-
-.game-over__score--positive {
-  background-color: #d4edda;
-  color: #155724;
-  border: 2px solid #c3e6cb;
-}
-
-.game-over__score--negative {
-  background-color: #ffebee;
-  color: #721c24;
-  border: 2px solid #f5c6cb;
-}
+/* Score styles moved to Score Block above */
 
 .game-over__restart {
   /* Styles moved to .cta block */
@@ -295,55 +198,7 @@
   flex-wrap: wrap;
 }
 
-.game-over__breakdown {
-  width: 100%;
-  max-width: 350px;
-  margin: 0;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-width: 280px;
-}
 
-.game-over__breakdown h3 {
-  font-size: 1.3rem;
-  color: #2c3e50;
-  margin: 0 0 0.75rem 0;
-  text-align: center;
-}
-
-.game-over__stats {
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-  background-color: #f8f9fa;
-  border-radius: 8px;
-  padding: 1rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-}
-
-.game-over__stat {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 1.1rem;
-  padding: 0.5rem 0.75rem;
-  border-radius: 6px;
-  background-color: white;
-  border-left: 4px solid #ddd;
-}
-
-.game-over__stat--correct {
-  border-left-color: #2ecc71;
-}
-
-.game-over__stat--incorrect {
-  border-left-color: #e74c3c;
-}
-
-.game-over__stat--no-guess {
-  border-left-color: #f39c12;
-}
 
 .game-over__high-scores {
   width: 100%;
