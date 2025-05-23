@@ -6,6 +6,7 @@ import GameCore, {
   type CryptoPriceGuess,
 } from '../../game-core/GameCore';
 import type { GameScreenProps } from '../app';
+import { Table, TableContainer, TableHead, TableRow, TableHeader, TableCell } from './Table';
 
 export const GameLoopScreen = ({ gameCore }: GameScreenProps) => (
   <div className="game-loop">
@@ -96,32 +97,30 @@ const GuessInput = ({ gameCore }: { gameCore: GameCore }) => {
 
 const PriceGuessHistory = ({ priceHistory }: { priceHistory: Signal<CryptoPriceGuess[]> }) => (
   <div className="game-loop__price-history">
-    <div className="table__container table__container--scrollable">
-      <table className="table table--compact">
-        <thead className="table__head table__head--sticky">
-          <tr>
-            <th className="table__header table__header--compact">Movement</th>
-            <th className="table__header table__header--compact">Result</th>
-            <th className="table__header table__header--compact">Price</th>
-            <th className="table__header table__header--compact">Time</th>
-          </tr>
-        </thead>
+    <TableContainer scrollable>
+      <Table compact>
+        <TableHead sticky>
+          <TableHeader compact>Movement</TableHeader>
+          <TableHeader compact>Result</TableHeader>
+          <TableHeader compact>Price</TableHeader>
+          <TableHeader compact>Time</TableHeader>
+        </TableHead>
         <tbody>
           {priceHistory.value.map((price) => (
-            <tr className="table__row" key={price.price.timestamp}>
-              <td className="table__cell table__cell--compact">
+            <TableRow key={price.price.timestamp}>
+              <TableCell compact>
                 {price.direction === GuessDirection.Up ? '⬆️' : price.direction === GuessDirection.Down ? '⬇️' : '-'}
-              </td>
-              <td className="table__cell table__cell--compact">
+              </TableCell>
+              <TableCell compact>
                 {price.isCorrect === undefined ? '🐔' : price.isCorrect ? '✅' : '❌'}
-              </td>
-              <td className="table__cell table__cell--compact">{priceFormatter.format(price.price.ammount)}</td>
-              <td className="table__cell table__cell--compact">{new Date(price.price.timestamp).toLocaleTimeString()}</td>
-            </tr>
+              </TableCell>
+              <TableCell compact>{priceFormatter.format(price.price.ammount)}</TableCell>
+              <TableCell compact>{new Date(price.price.timestamp).toLocaleTimeString()}</TableCell>
+            </TableRow>
           ))}
         </tbody>
-      </table>
-    </div>
+      </Table>
+    </TableContainer>
   </div>
 );
 
