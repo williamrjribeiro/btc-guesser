@@ -96,27 +96,27 @@ const GuessInput = ({ gameCore }: { gameCore: GameCore }) => {
 
 const PriceGuessHistory = ({ priceHistory }: { priceHistory: Signal<CryptoPriceGuess[]> }) => (
   <div className="game-loop__price-history">
-    <div className="game-loop__price-history__container">
-      <table className="game-loop__price-history__table">
-        <thead className="game-loop__price-history__thead">
+    <div className="table__container table__container--scrollable">
+      <table className="table table--compact">
+        <thead className="table__head table__head--sticky">
           <tr>
-            <th className="game-loop__price-history__th">Movement</th>
-            <th className="game-loop__price-history__th">Result</th>
-            <th className="game-loop__price-history__th">Price</th>
-            <th className="game-loop__price-history__th">Time</th>
+            <th className="table__header table__header--compact">Movement</th>
+            <th className="table__header table__header--compact">Result</th>
+            <th className="table__header table__header--compact">Price</th>
+            <th className="table__header table__header--compact">Time</th>
           </tr>
         </thead>
         <tbody>
           {priceHistory.value.map((price) => (
-            <tr key={price.price.timestamp}>
-              <td className="game-loop__price-history__td">
+            <tr className="table__row" key={price.price.timestamp}>
+              <td className="table__cell table__cell--compact">
                 {price.direction === GuessDirection.Up ? '⬆️' : price.direction === GuessDirection.Down ? '⬇️' : '-'}
               </td>
-              <td className="game-loop__price-history__td">
+              <td className="table__cell table__cell--compact">
                 {price.isCorrect === undefined ? '🐔' : price.isCorrect ? '✅' : '❌'}
               </td>
-              <td className="game-loop__price-history__td">{priceFormatter.format(price.price.ammount)}</td>
-              <td className="game-loop__price-history__td">{new Date(price.price.timestamp).toLocaleTimeString()}</td>
+              <td className="table__cell table__cell--compact">{priceFormatter.format(price.price.ammount)}</td>
+              <td className="table__cell table__cell--compact">{new Date(price.price.timestamp).toLocaleTimeString()}</td>
             </tr>
           ))}
         </tbody>
