@@ -16,7 +16,7 @@ export const GameLoopScreen = ({ gameCore }: GameScreenProps) => (
       <GuessInput gameCore={gameCore} />
     </div>
     <PriceGuessHistory priceHistory={gameCore.priceHistory} />
-    <button className="game-loop__quit" onClick={() => gameCore.stop()}>
+    <button className="cta cta--danger" onClick={() => gameCore.stop()}>
       Quit
     </button>
   </div>

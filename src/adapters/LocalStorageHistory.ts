@@ -24,7 +24,7 @@ export class LocalStorageHistory implements ForPersistingGameHistory {
       const session: GameSession = {
         priceGuessHistory: gameCore.priceHistory.value,
       };
-      
+
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(session));
       } catch (error) {
@@ -37,7 +37,7 @@ export class LocalStorageHistory implements ForPersistingGameHistory {
     try {
       const storedSession = localStorage.getItem(STORAGE_KEY);
       if (!storedSession) return null;
-      
+
       return JSON.parse(storedSession) as GameSession;
     } catch (error) {
       console.error('Failed to load game session:', error);
