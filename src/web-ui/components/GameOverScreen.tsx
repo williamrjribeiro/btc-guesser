@@ -130,10 +130,7 @@ const HighScoresTable = () => {
     const fetchHighScores = async () => {
       try {
         isLoading.value = true;
-        // const scores = await getHighScore();
         const scores = await getHighScoreReal();
-        console.log('[HighScoresTable] scores', scores);
-        // console.log('scoresReal', scoresReal);
         highScores.value = scores;
       } catch (error) {
         console.error('Failed to fetch high scores:', error);
