@@ -1,5 +1,8 @@
+import { useSignal, useSignalEffect } from '@preact/signals';
 import type { GameScreenProps } from '../app';
 import type { CryptoPriceGuess } from '../../game-core/GameCore';
+import { getHighScore } from '../../adapters/MockHighScoreAPI';
+import type { HighScore } from '../../game-core/HighScoreAPI';
 
 export const GameOverScreen = ({ gameCore }: GameScreenProps) => {
   const score = gameCore.score.value;
@@ -12,7 +15,10 @@ export const GameOverScreen = ({ gameCore }: GameScreenProps) => {
         <span>Final Score: {score}</span>
         <span>{isPositive ? '🤑' : '💸'}</span>
       </div>
-      <PriceGuessHistoryBreakdown priceHistory={gameCore.priceHistory.value} />
+      <div className="game-over__content">
+        <PriceGuessHistoryBreakdown priceHistory={gameCore.priceHistory.value} />
+        <HighScoresTable />
+      </div>
       <button className="cta cta--primary game-over__restart" onClick={() => gameCore.restart()}>
         Play Again
       </button>
@@ -37,7 +43,7 @@ const PriceGuessHistoryBreakdown = ({ priceHistory }: { priceHistory: ReadonlyAr
 
   return (
     <div className="game-over__breakdown">
-      <h3>Your Guessing Performance</h3>
+      <h3>Your Performance</h3>
       <div className="game-over__stats">
         <div className="game-over__stat game-over__stat--correct">
           <span>✅ Correct:</span>
@@ -54,4 +60,88 @@ const PriceGuessHistoryBreakdown = ({ priceHistory }: { priceHistory: ReadonlyAr
       </div>
     </div>
   );
+};
+
+const HighScoresTable = () => {
+  const highScores = useSignal<HighScore[]>([]);
+  const isLoading = useSignal(true);
+
+  useSignalEffect(() => {
+    const fetchHighScores = async () => {
+      try {
+        isLoading.value = true;
+        const scores = await getHighScore();
+        highScores.value = scores;
+      } catch (error) {
+        console.error('Failed to fetch high scores:', error);
+      } finally {
+        isLoading.value = false;
+      }
+    };
+
+    fetchHighScores();
+  });
+
+  return (
+    <div className="game-over__high-scores">
+      <h3>High Scores</h3>
+      {isLoading.value ? (
+        <div className="game-over__high-scores__loading">
+          Loading high scores...
+        </div>
+      ) : (
+        <div className="game-over__high-scores__container">
+          <table className="game-over__high-scores__table">
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>Player</th>
+                <th>Score</th>
+                <th>✅</th>
+                <th>❌</th>
+                <th>🐔</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              {highScores.value.map((highScore: HighScore, index: number) => (
+                <HighScoreRow 
+                  key={highScore.id || index}
+                  highScore={highScore} 
+                  rank={index + 1} 
+                />
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </div>
+  );
+};
+
+const HighScoreRow = ({ highScore, rank }: { highScore: HighScore; rank: number }) => {
+  const stats = parseSerializedHistory(highScore.serializedHistory);
+  
+  return (
+    <tr>
+      <td>{rank}</td>
+      <td>{highScore.username}</td>
+      <td className={highScore.score >= 0 ? 'score--positive' : 'score--negative'}>
+        {highScore.score}
+      </td>
+      <td>{stats.correct}</td>
+      <td>{stats.wrong}</td>
+      <td>{stats.noGuess}</td>
+      <td>{new Date(highScore.date).toLocaleDateString()}</td>
+    </tr>
+  );
+};
+
+const parseSerializedHistory = (serialized: string): { correct: number; wrong: number; noGuess: number } => {
+  const [correct, wrong, noGuess] = serialized.split(',');
+  return { 
+    correct: parseInt(correct.slice(1)), 
+    wrong: parseInt(wrong.slice(1)), 
+    noGuess: parseInt(noGuess.slice(1))
+  };
 };

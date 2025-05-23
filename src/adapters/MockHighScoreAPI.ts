@@ -21,8 +21,8 @@ export const saveHighScore: SaveHighScore = async (priceGuessHistory: CryptoPric
 };
 
 const highScores: HighScore[] = [
-  new HighScore('C2,W1,N0', 'crypto_whale', new Date(Date.now() - 300000), uuidv4()),
-  new HighScore('C2,W1,N0', 'btc_hodler', new Date(Date.now() - 200000), uuidv4()),
+  new HighScore('C20,W10,N0', 'crypto_whale', new Date(Date.now() - 300000), uuidv4()),
+  new HighScore('C7,W3,N10', 'btc_hodler', new Date(Date.now() - 200000), uuidv4()),
   new HighScore('C2,W1,N0', 'satoshi_fan', new Date(Date.now() - 100000), uuidv4()),
 ];
 
