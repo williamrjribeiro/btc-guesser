@@ -90,9 +90,7 @@ const HighScoresTable = () => {
     <div className="game-over__high-scores">
       <h3>High Scores</h3>
       {isLoading.value ? (
-        <div className="game-over__high-scores__loading">
-          Loading high scores...
-        </div>
+        <div className="game-over__high-scores__loading">Loading high scores...</div>
       ) : (
         <TableContainer elevated>
           <Table elevated>
@@ -107,11 +105,7 @@ const HighScoresTable = () => {
             </TableHead>
             <tbody>
               {highScores.value.map((highScore: HighScore, index: number) => (
-                <HighScoreRow 
-                  key={highScore.id || index}
-                  highScore={highScore} 
-                  rank={index + 1} 
-                />
+                <HighScoreRow key={highScore.id || index} highScore={highScore} rank={index + 1} />
               ))}
             </tbody>
           </Table>
@@ -123,15 +117,12 @@ const HighScoresTable = () => {
 
 const HighScoreRow = ({ highScore, rank }: { highScore: HighScore; rank: number }) => {
   const stats = parseSerializedHistory(highScore.serializedHistory);
-  
+
   return (
     <TableRow>
       <TableCell>{rank}</TableCell>
       <TableCell>{highScore.username}</TableCell>
-      <TableCell 
-        scorePositive={highScore.score >= 0} 
-        scoreNegative={highScore.score < 0}
-      >
+      <TableCell scorePositive={highScore.score >= 0} scoreNegative={highScore.score < 0}>
         {highScore.score}
       </TableCell>
       <TableCell>{stats.correct}</TableCell>
@@ -144,9 +135,9 @@ const HighScoreRow = ({ highScore, rank }: { highScore: HighScore; rank: number 
 
 const parseSerializedHistory = (serialized: string): { correct: number; wrong: number; noGuess: number } => {
   const [correct, wrong, noGuess] = serialized.split(',');
-  return { 
-    correct: parseInt(correct.slice(1)), 
-    wrong: parseInt(wrong.slice(1)), 
-    noGuess: parseInt(noGuess.slice(1))
+  return {
+    correct: parseInt(correct.slice(1)),
+    wrong: parseInt(wrong.slice(1)),
+    noGuess: parseInt(noGuess.slice(1)),
   };
 };
