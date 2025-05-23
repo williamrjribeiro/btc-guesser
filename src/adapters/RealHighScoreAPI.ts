@@ -4,7 +4,7 @@ import { HighScore, type GetHighScore, type SaveHighScore } from '../game-core/H
 const apiUrl = `${import.meta.env.VITE_API_URL}/api/highscore`;
 
 export const saveHighScore: SaveHighScore = async (priceGuessHistory: CryptoPriceGuess[], username: string) => {
-    const newHighScore = new HighScore(priceGuessHistory, username);
+  const newHighScore = new HighScore(priceGuessHistory, username);
   const response = await fetch(apiUrl, {
     method: 'POST',
     body: JSON.stringify(newHighScore),

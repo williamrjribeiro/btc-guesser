@@ -4,3 +4,4 @@
 dist
 .pnpm-store
 .sst
+pnpm-lock.yaml
