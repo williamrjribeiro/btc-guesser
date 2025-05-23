@@ -6,6 +6,7 @@ import GameCore, {
   type CryptoPriceFetcher,
   type CryptoPriceGuess,
   type GameConfig,
+  type GameSession,
 } from './GameCore';
 
 describe('GameCore', () => {
@@ -114,6 +115,82 @@ describe('GameCore', () => {
       await vi.waitUntil(() => game.state.value === 'running');
 
       expect(mockFetcher).toHaveBeenCalledWith('BTC');
+      expect(game.currentPrice.value).toEqual(defaultPrice);
+      expect(game.priceHistory.value).toEqual([
+        {
+          price: defaultPrice,
+          guess: null,
+          isCorrect: undefined,
+          direction: null,
+        },
+      ]);
+    });
+
+    it('clears internal state when newGame is true', async () => {
+      const mockFetcher = getPriceFetcherMock();
+      const initialSession: GameSession = {
+        priceGuessHistory: [
+          {
+            price: { name: 'BTC', ammount: 100, timestamp: Date.now() },
+            guess: GuessDirection.Up,
+            isCorrect: true,
+            direction: GuessDirection.Up,
+          },
+          {
+            price: { name: 'BTC', ammount: 90, timestamp: Date.now() },
+            guess: GuessDirection.Down,
+            isCorrect: true,
+            direction: GuessDirection.Down,
+          },
+        ],
+      };
+
+      const game = new GameCore(mockFetcher, {
+        poolInterval: 5000,
+        cryptoName: 'BTC',
+        session: initialSession,
+      });
+
+      // Verify initial state with session
+      expect(game.priceHistory.value).toEqual(initialSession.priceGuessHistory);
+      expect(game.score.value).toBe(2);
+
+      // Start with newGame=true
+      game.start(true);
+      expect(game.currentPrice.value).toBeNull();
+      expect(game.currentGuess.value).toBeNull();
+      expect(game.priceHistory.value).toEqual([]);
+      expect(game.score.value).toBe(0);
+    });
+
+    it('preserves internal state when newGame is false', async () => {
+      const mockFetcher = getPriceFetcherMock();
+      const game = new GameCore(mockFetcher);
+
+      // First start to populate some state
+      game.start();
+      vi.runAllTimers();
+      await vi.waitUntil(() => game.state.value === 'running');
+
+      // Stop the game
+      game.stop();
+      expect(game.state.value).toEqual('gameover');
+
+      // Restart to get back to initialized state
+      game.restart();
+      expect(game.state.value).toEqual('initialized');
+
+      // Start with newGame=false (default)
+      game.start();
+      expect(game.currentPrice.value).toBeNull();
+      expect(game.currentGuess.value).toBeNull();
+      expect(game.priceHistory.value).toEqual([]);
+      expect(game.score.value).toBe(0);
+
+      vi.runAllTimers();
+      await vi.waitUntil(() => game.state.value === 'running');
+
+      // Verify new state is populated correctly
       expect(game.currentPrice.value).toEqual(defaultPrice);
       expect(game.priceHistory.value).toEqual([
         {

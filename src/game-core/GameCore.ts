@@ -114,10 +114,17 @@ class GameCore {
     });
   }
 
-  public start() {
+  public start(newGame: boolean = false) {
     if (this.state.value !== 'initialized') {
       return;
     }
+
+    if (newGame) {
+      this._currentPrice.value = null;
+      this._guess.value = null;
+      this._priceHistory.value = [];
+    }
+
     this.poller.start();
   }
 
