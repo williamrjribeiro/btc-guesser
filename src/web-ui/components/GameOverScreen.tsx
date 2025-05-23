@@ -13,7 +13,7 @@ export const GameOverScreen = ({ gameCore }: GameScreenProps) => {
         <span>{isPositive ? '🤑' : '💸'}</span>
       </div>
       <PriceGuessHistoryBreakdown priceHistory={gameCore.priceHistory.value} />
-      <button className="game-over__restart" onClick={() => gameCore.restart()}>
+      <button className="cta cta--primary game-over__restart" onClick={() => gameCore.restart()}>
         Play Again
       </button>
     </div>
