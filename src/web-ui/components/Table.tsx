@@ -1,4 +1,5 @@
 import type { ComponentChildren } from 'preact';
+import './table.css';
 
 interface TableProps {
   children: ComponentChildren;
