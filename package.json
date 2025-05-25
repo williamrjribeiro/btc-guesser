@@ -22,6 +22,8 @@
     "aws:sso": "aws sso login --sso-session=fire-emblem"
   },
   "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.817.0",
+    "@aws-sdk/lib-dynamodb": "^3.817.0",
     "@preact/signals": "^2.0.4",
     "pollinator": "^0.3.2",
     "preact": "^10.26.5",
