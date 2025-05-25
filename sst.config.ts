@@ -16,7 +16,25 @@ export default $config({
     };
   },
   async run() {
-    const api = new sst.aws.ApiGatewayV2('Api');
+    const highScoreTable = new sst.aws.Dynamo('HighScoreTable', {
+      fields: {
+        id: 'string',
+        sortKey: 'string', // SCORE#<score>#DATE#<iso-date>
+      },
+      primaryIndex: {
+        hashKey: 'id',
+      },
+      globalIndexes: {
+        ScoreIndex: {
+          hashKey: 'sortKey',
+          projection: 'all',
+        },
+      },
+    });
+
+    const api = new sst.aws.ApiGatewayV2('Api', {
+      link: [highScoreTable],
+    });
 
     api.route('GET /api/highscore', 'src/adapters/rest/handler.getHighscore');
     api.route('POST /api/highscore', 'src/adapters/rest/handler.postHighscore');
@@ -33,7 +51,7 @@ export default $config({
 
     return {
       web: web.url,
-      api: api.url,
+      dynamodbTable: highScoreTable.name,
     };
   },
 });
