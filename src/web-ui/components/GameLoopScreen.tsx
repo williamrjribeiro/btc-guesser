@@ -7,7 +7,7 @@ import GameCore, {
 } from '../../game-core/GameCore';
 import type { GameScreenProps } from '../app';
 import { Table, TableContainer, TableHead, TableRow, TableHeader, TableCell } from './Table';
-import { Button } from './Button';
+import { CtaButton } from './CtaButton';
 import './score.css';
 import './price.css';
 import './countdown.css';
@@ -21,9 +21,9 @@ export const GameLoopScreen = ({ gameCore }: GameScreenProps) => (
       <GuessInput gameCore={gameCore} />
     </div>
     <PriceGuessHistory priceHistory={gameCore.priceHistory} />
-    <Button variant="danger" onClick={() => gameCore.stop()}>
+    <CtaButton variant="danger" onClick={() => gameCore.stop()}>
       Quit
-    </Button>
+    </CtaButton>
   </div>
 );
 

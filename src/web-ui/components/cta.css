@@ -1,0 +1,66 @@
+.cta {
+  background-color: #2ecc71;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 2.5rem;
+  font-size: 1.25rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(46, 204, 113, 0.2);
+}
+
+.cta:hover {
+  transform: translateY(-2px);
+}
+
+.cta:active {
+  transform: translateY(0);
+}
+
+.cta--primary {
+  background-color: #2ecc71;
+  box-shadow: 0 4px 6px rgba(46, 204, 113, 0.2);
+}
+
+.cta--primary:hover {
+  background-color: #27ae60;
+  box-shadow: 0 6px 8px rgba(46, 204, 113, 0.3);
+}
+
+.cta--primary:active {
+  box-shadow: 0 2px 4px rgba(46, 204, 113, 0.2);
+}
+
+.cta--secondary {
+  background-color: #3498db;
+  box-shadow: 0 4px 6px rgba(52, 152, 219, 0.2);
+}
+
+.cta--secondary:hover {
+  background-color: #2980b9;
+  box-shadow: 0 6px 8px rgba(52, 152, 219, 0.3);
+}
+
+.cta--secondary:active {
+  box-shadow: 0 2px 4px rgba(52, 152, 219, 0.2);
+}
+
+.cta--danger {
+  background-color: #ff4444;
+  box-shadow: 0 4px 6px rgba(255, 68, 68, 0.2);
+  padding: 0.5rem 1.5rem;
+  font-size: 1rem;
+  width: 100%;
+  max-width: 125px;
+}
+
+.cta--danger:hover {
+  background-color: #ff2222;
+  box-shadow: 0 6px 8px rgba(255, 68, 68, 0.3);
+}
+
+.cta--danger:active {
+  box-shadow: 0 2px 4px rgba(255, 68, 68, 0.2);
+} 

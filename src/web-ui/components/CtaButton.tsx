@@ -1,7 +1,8 @@
 import type { ComponentChildren } from 'preact';
 import type { JSX } from 'preact';
+import './cta.css';
 
-interface ButtonProps {
+interface CtaButtonProps {
   children: ComponentChildren;
   variant?: 'primary' | 'secondary' | 'danger';
   onClick?: () => void;
@@ -10,7 +11,7 @@ interface ButtonProps {
   type?: 'button' | 'submit' | 'reset';
 }
 
-export const Button = ({
+export const CtaButton = ({
   children,
   variant = 'primary',
   onClick,
@@ -18,7 +19,7 @@ export const Button = ({
   className = '',
   type = 'button',
   ...props
-}: ButtonProps & Omit<JSX.HTMLAttributes<HTMLButtonElement>, 'onClick'>) => {
+}: CtaButtonProps & Omit<JSX.HTMLAttributes<HTMLButtonElement>, 'onClick'>) => {
   const classes = ['cta', variant && `cta--${variant}`, className].filter(Boolean).join(' ');
 
   return (
@@ -26,4 +27,4 @@ export const Button = ({
       {children}
     </button>
   );
-};
+}; 
