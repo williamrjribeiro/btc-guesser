@@ -4,7 +4,7 @@ import type { CryptoPriceGuess } from '../../game-core/GameCore';
 import { getHighScore as getHighScoreReal, saveHighScore } from '../../adapters/RealHighScoreAPI';
 import type { HighScore } from '../../game-core/HighScoreAPI';
 import { Table, TableContainer, TableHead, TableRow, TableHeader, TableCell } from './Table';
-import { Button } from './Button';
+import { CtaButton } from './CtaButton';
 import './score.css';
 import './breakdown.css';
 import './highscore-form.css';
@@ -23,9 +23,9 @@ export const GameOverScreen = ({ gameCore }: GameScreenProps) => {
         <PriceGuessHistoryBreakdown priceHistory={gameCore.priceHistory.value} />
         <HighScoresTable />
       </div>
-      <Button variant="primary" className="game-over__restart" onClick={() => gameCore.restart()}>
+      <CtaButton variant="primary" className="game-over__restart" onClick={() => gameCore.restart()}>
         Play Again
-      </Button>
+      </CtaButton>
     </div>
   );
 };
