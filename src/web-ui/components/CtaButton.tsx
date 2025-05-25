@@ -27,4 +27,4 @@ export const CtaButton = ({
       {children}
     </button>
   );
-}; 
+};
