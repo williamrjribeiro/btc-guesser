@@ -2,7 +2,6 @@
 #app {
   max-width: 1280px;
   margin: 0 auto;
-  padding-bottom: 0.5rem;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -125,6 +124,7 @@
   min-width: 450px;
   align-items: center;
   height: 100%;
+  margin-bottom: 2rem;
 }
 
 .game-loop__top-section {
@@ -168,14 +168,13 @@
 .game-over {
   align-items: center;
   justify-content: space-between;
-  gap: 4rem;
+  gap: 2rem;
+  flex: 1;
 }
 
-/* Score styles moved to Score Block above */
-
 .game-over__restart {
-  /* Styles moved to .cta block */
   margin-top: auto;
+  margin-bottom: 1rem;
 }
 
 .game-over__content {
@@ -195,7 +194,6 @@
   display: flex;
   flex-direction: column;
   min-width: 500px;
-  height: 100%;
   max-height: 525px;
   overflow-y: auto;
 }

@@ -15,7 +15,6 @@ export const GameOverScreen = ({ gameCore }: GameScreenProps) => {
 
   return (
     <div className="game-over">
-      <h2 className="game-over__title">Game Over</h2>
       <div className={`score score--game-over ${isPositive ? 'score--positive' : 'score--negative'}`}>
         <span>Final Score: {score}</span>
         <span>{isPositive ? '🤑' : '💸'}</span>

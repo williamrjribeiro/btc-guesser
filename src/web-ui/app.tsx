@@ -4,6 +4,7 @@ import './app.css';
 import { GameStartScreen } from './components/GameStartScreen';
 import { GameLoopScreen } from './components/GameLoopScreen';
 import { GameOverScreen } from './components/GameOverScreen';
+import { Footer } from './components/Footer';
 import type { ComponentType } from 'preact';
 import { LocalStorageHistory } from '../adapters/LocalStorageHistory';
 
@@ -37,6 +38,7 @@ export function App() {
     <>
       <h1>🍀 ₿TC Guesser 🍀</h1>
       <Screen gameCore={gameCore} />
+      <Footer />
     </>
   );
 }
