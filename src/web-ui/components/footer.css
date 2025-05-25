@@ -1,43 +1,43 @@
 /* ========================================
    Footer Component
    ======================================== */
-   .footer {
-    width: 100%;
-    padding: 1rem;
-    margin-top: auto;
-    background-color: #f8f9fa;
-    border-top: 1px solid #dee2e6;
-    box-sizing: border-box;
-  }
-  
-  .footer__content {
-    max-width: 1280px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1rem;
-    flex-wrap: wrap;
-  }
-  
-  .footer__author {
-    color: #6c757d;
-    font-size: 0.9rem;
-  }
-  
-  .footer__links {
-    display: flex;
-    gap: 1rem;
-  }
-  
-  .footer__link {
-    color: #3498db;
-    text-decoration: none;
-    font-size: 0.9rem;
-    transition: color 0.2s ease;
-  }
-  
-  .footer__link:hover {
-    color: #2980b9;
-    text-decoration: underline;
-  }
+.footer {
+  width: 100%;
+  padding: 1rem;
+  margin-top: auto;
+  background-color: #f8f9fa;
+  border-top: 1px solid #dee2e6;
+  box-sizing: border-box;
+}
+
+.footer__content {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.footer__author {
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+.footer__links {
+  display: flex;
+  gap: 1rem;
+}
+
+.footer__link {
+  color: #3498db;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.2s ease;
+}
+
+.footer__link:hover {
+  color: #2980b9;
+  text-decoration: underline;
+}
