@@ -1,18 +1,26 @@
 /* ========================================
-   Countdown Block (BEM Component)
+   Countdown Block (BEM Component) - Mobile First
    ======================================== */
 .countdown {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   margin: 0 0 0.5rem 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 140px;
+  width: 120px;
   box-sizing: border-box;
   color: #6c757d;
   font-family: monospace;
   position: relative;
   padding-bottom: 0.25rem;
+}
+
+/* Tablet and larger screens */
+@media (min-width: 768px) {
+  .countdown {
+    font-size: 0.85rem;
+    width: 140px;
+  }
 }
 
 .countdown::after {

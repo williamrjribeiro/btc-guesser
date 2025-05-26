@@ -1,6 +1,6 @@
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
+  line-height: 1.4;
   font-weight: 400;
 
   color: #213547;
@@ -23,34 +23,60 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
+  padding: 0;
   min-width: 320px;
   min-height: 100vh;
   background-color: #ffffff;
 }
 
 h1 {
-  font-size: 3.2em;
+  font-size: 1.8rem;
   line-height: 1.1;
   color: #213547;
+  margin: 0.5rem 0;
+}
+
+/* Tablet and larger screens */
+@media (min-width: 768px) {
+  h1 {
+    font-size: 2.5rem;
+    margin: 1rem 0;
+  }
+}
+
+/* Desktop screens */
+@media (min-width: 1024px) {
+  h1 {
+    font-size: 3.2rem;
+  }
 }
 
 button {
-  border-radius: 8px;
+  border-radius: 6px;
   border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
   font-weight: 500;
   font-family: inherit;
   background-color: #f9f9f9;
   cursor: pointer;
   transition: border-color 0.25s;
   color: #213547;
+  min-height: 44px; /* iOS touch target minimum */
 }
+
+/* Tablet and larger screens */
+@media (min-width: 768px) {
+  button {
+    padding: 0.6rem 1.2rem;
+    font-size: 1rem;
+  }
+}
+
 button:hover {
   border-color: #646cff;
 }
+
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;

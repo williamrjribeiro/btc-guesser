@@ -1,19 +1,33 @@
 /* ========================================
-   Price Block (BEM Component)
+   Price Block (BEM Component) - Mobile First
    ======================================== */
 .price {
-  font-size: 1.5rem;
+  font-size: 1.1rem;
   font-weight: bold;
-  padding: 1rem;
+  padding: 0.75rem;
   background-color: #e8f4fc;
-  border-radius: 8px;
+  border-radius: 6px;
   margin: 0;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
   width: 100%;
   box-sizing: border-box;
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
   border: 2px solid #b3d9ff;
   color: #1a5276;
+  gap: 0.25rem;
+}
+
+/* Tablet and larger screens */
+@media (min-width: 768px) {
+  .price {
+    font-size: 1.5rem;
+    padding: 1rem;
+    border-radius: 8px;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 0;
+  }
 }
