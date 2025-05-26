@@ -1,12 +1,27 @@
-/* Table Component */
+/* Table Component - Mobile First */
 .table {
   width: 100%;
   border-collapse: collapse;
+  font-size: 0.8rem;
+}
+
+/* Tablet and larger screens */
+@media (min-width: 768px) {
+  .table {
+    font-size: 0.95rem;
+  }
 }
 
 .table__container {
-  border-radius: 8px;
+  border-radius: 6px;
   overflow-x: auto;
+}
+
+/* Tablet and larger screens */
+@media (min-width: 768px) {
+  .table__container {
+    border-radius: 8px;
+  }
 }
 
 .table__container--scrollable {
@@ -18,8 +33,15 @@
 
 .table__container--elevated {
   background-color: #f8f9fa;
-  padding: 1rem;
+  padding: 0.75rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Tablet and larger screens */
+@media (min-width: 768px) {
+  .table__container--elevated {
+    padding: 1rem;
+  }
 }
 
 .table__head {
@@ -41,33 +63,79 @@
 
 .table__header,
 .table__cell {
-  padding: 0.75rem 0.5rem;
+  padding: 0.5rem 0.25rem;
   text-align: center;
   border-bottom: 1px solid #dee2e6;
 }
 
+/* Tablet and larger screens */
+@media (min-width: 768px) {
+  .table__header,
+  .table__cell {
+    padding: 0.75rem 0.5rem;
+  }
+}
+
 .table__header {
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 0.75rem;
+}
+
+/* Tablet and larger screens */
+@media (min-width: 768px) {
+  .table__header {
+    font-size: 0.9rem;
+  }
 }
 
 .table__header--compact {
-  padding: 0.4rem;
+  padding: 0.3rem 0.2rem;
   font-weight: bold;
+  font-size: 0.7rem;
+}
+
+/* Tablet and larger screens */
+@media (min-width: 768px) {
+  .table__header--compact {
+    padding: 0.4rem;
+    font-size: 0.8rem;
+  }
 }
 
 .table__header--styled {
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.3px;
+}
+
+/* Tablet and larger screens */
+@media (min-width: 768px) {
+  .table__header--styled {
+    letter-spacing: 0.5px;
+  }
 }
 
 .table__cell {
-  font-size: 0.95rem;
+  font-size: 0.75rem;
+}
+
+/* Tablet and larger screens */
+@media (min-width: 768px) {
+  .table__cell {
+    font-size: 0.95rem;
+  }
 }
 
 .table__cell--compact {
-  padding: 0.4rem;
-  font-size: 0.9rem;
+  padding: 0.3rem 0.2rem;
+  font-size: 0.7rem;
+}
+
+/* Tablet and larger screens */
+@media (min-width: 768px) {
+  .table__cell--compact {
+    padding: 0.4rem;
+    font-size: 0.9rem;
+  }
 }
 
 .table__row:hover {
@@ -86,7 +154,14 @@
 }
 
 .table--compact {
-  font-size: 0.9rem;
+  font-size: 0.7rem;
+}
+
+/* Tablet and larger screens */
+@media (min-width: 768px) {
+  .table--compact {
+    font-size: 0.9rem;
+  }
 }
 
 /* Table-specific modifiers for content styling */
