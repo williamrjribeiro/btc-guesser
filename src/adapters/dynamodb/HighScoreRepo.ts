@@ -4,6 +4,7 @@ import type { QueryCommandInput } from '@aws-sdk/lib-dynamodb';
 import { HighScore } from '../../game-core/HighScoreAPI';
 import type { HighScoreRepository, ListHighScore, SaveHighScore } from '../../game-core/HighScoreRepository';
 import { Resource } from 'sst';
+import { v4 as uuidv4 } from 'uuid';
 
 export class HighScoreRepo implements HighScoreRepository {
   private readonly client: DynamoDBDocumentClient;
@@ -15,8 +16,12 @@ export class HighScoreRepo implements HighScoreRepository {
 
   listHighScores: ListHighScore = async () => {
     const params: QueryCommandInput = {
-      TableName: Resource.HighScoreTable.name,
+      TableName: Resource.HighScore.name,
       IndexName: 'ScoreIndex',
+      KeyConditionExpression: 'cryptoSymbol = :cryptoSymbol',
+      ExpressionAttributeValues: {
+        ':cryptoSymbol': 'BTC', // TODO: make this dynamic
+      },
       ScanIndexForward: false, // Sort in descending order (highest scores first)
       Limit: 100,
     };
@@ -36,13 +41,14 @@ export class HighScoreRepo implements HighScoreRepository {
     // Create a composite sort key that combines score and date
     // Format: SCORE#<score>#DATE#<iso-date>
     // This ensures that when scores are equal, the most recent date comes first
-    const sortKey = `SCORE#${highScore.score.toString().padStart(3, '0')}#DATE#${highScore.date.toISOString()}`;
+    const scoreKey = `SCORE#${highScore.score.toString().padStart(3, '0')}#DATE#${highScore.date.toISOString()}`;
 
     const item = {
-      id: highScore.id || crypto.randomUUID(),
+      id: uuidv4(),
       username: highScore.username,
       score: highScore.score,
-      sortKey,
+      cryptoSymbol: 'BTC',
+      scoreKey,
       date: highScore.date.toISOString(),
       serializedHistory: highScore.serializedHistory,
     };
@@ -50,7 +56,7 @@ export class HighScoreRepo implements HighScoreRepository {
     try {
       await this.client.send(
         new PutCommand({
-          TableName: Resource.HighScoreTable.name,
+          TableName: Resource.HighScore.name,
           Item: item,
         }),
       );
