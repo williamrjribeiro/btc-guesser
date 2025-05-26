@@ -16,17 +16,19 @@ export default $config({
     };
   },
   async run() {
-    const highScoreTable = new sst.aws.Dynamo('HighScoreTable', {
+    const highScoreTable = new sst.aws.Dynamo('HighScore', {
       fields: {
         id: 'string',
-        sortKey: 'string', // SCORE#<score>#DATE#<iso-date>
+        cryptoSymbol: 'string', // Partition key for GSI - allows for different crypto symbols
+        scoreKey: 'string', // Sort key for GSI - SCORE#<padded-score>#DATE#<iso-date>
       },
       primaryIndex: {
         hashKey: 'id',
       },
       globalIndexes: {
         ScoreIndex: {
-          hashKey: 'sortKey',
+          hashKey: 'cryptoSymbol',
+          rangeKey: 'scoreKey',
           projection: 'all',
         },
       },
