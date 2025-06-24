@@ -1,8 +1,7 @@
-import GameCore from '../../../game-core/GameCore';
 import type { GameScreenProps } from '../../App';
 import { CtaButton } from '../../components/CtaButton';
 import { Screen } from '../../components/Screen';
-import './score.css';
+import { CurrentScore } from './CurrentScore';
 import GuessInput from './GuessInput';
 import PriceGuessHistory from './PriceGuessHistory';
 import CountdownTimer from './CountdownTimer';
@@ -13,7 +12,7 @@ export const GameLoopScreen = ({ gameCore }: GameScreenProps) => (
   <Screen>
     <div className="game-loop">
       <div className="game-loop__top-section">
-        <ScoreDisplay gameCore={gameCore} />
+        <CurrentScore gameCore={gameCore} />
         <CryptoPrice currentPrice={gameCore.currentPrice} />
         <CountdownTimer gameCore={gameCore} />
         <GuessInput gameCore={gameCore} />
@@ -24,11 +23,4 @@ export const GameLoopScreen = ({ gameCore }: GameScreenProps) => (
       </CtaButton>
     </div>
   </Screen>
-);
-
-const ScoreDisplay = ({ gameCore }: { gameCore: GameCore }) => (
-  <div className="score score--game-loop">
-    <span>💰 Score:</span>
-    <span>{gameCore.score.value}</span>
-  </div>
 );

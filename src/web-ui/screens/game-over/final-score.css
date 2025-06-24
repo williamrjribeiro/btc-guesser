@@ -1,0 +1,46 @@
+/* ========================================
+   FinalScore Block (BEM Component) - Mobile First
+   ======================================== */
+.final-score {
+  font-weight: bold;
+  border-radius: 10px;
+  margin: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  font-size: 1.3rem;
+  padding: 1rem 1.25rem;
+  width: 100%;
+  max-width: 320px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.final-score--positive {
+  background-color: #d4edda;
+  color: #155724;
+  border: 2px solid #c3e6cb;
+}
+
+.final-score--negative {
+  background-color: #ffebee;
+  color: #721c24;
+  border: 2px solid #f5c6cb;
+}
+
+.final-score--zero {
+  background-color: #f8f9fa;
+  color: #6c757d;
+  border: 2px solid #dee2e6;
+}
+
+/* Tablet and larger screens */
+@media (min-width: 768px) {
+  .final-score {
+    border-radius: 12px;
+    font-size: 1.6rem;
+    padding: 1.25rem 1.75rem;
+    max-width: 400px;
+  }
+}
