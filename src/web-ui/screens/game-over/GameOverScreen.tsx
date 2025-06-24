@@ -1,4 +1,4 @@
-import type { GameScreenProps } from '../../app';
+import type { GameScreenProps } from '../../App';
 import { CtaButton } from '../../components/CtaButton';
 import './score.css';
 import HighScoresTable from './HighScoresTable';

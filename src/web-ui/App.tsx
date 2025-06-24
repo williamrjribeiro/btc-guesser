@@ -31,7 +31,7 @@ const SCREENS: Record<GameState, ComponentType<GameScreenProps>> = {
   error: () => <div>Error: Unknown game state</div>,
 } as const;
 
-export function App() {
+export default function App() {
   const Screen = SCREENS[gameCore.state.value as GameState];
 
   return (
