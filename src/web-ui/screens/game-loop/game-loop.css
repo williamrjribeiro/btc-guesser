@@ -1,0 +1,47 @@
+/* ========================================
+   GameLoopScreen Block - Mobile First
+   ======================================== */
+.game-loop {
+  align-items: center;
+  padding: 0.5rem 0;
+}
+
+.game-loop__top-section {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 1rem;
+}
+
+.game-loop__buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  justify-content: center;
+  min-height: 44px;
+  margin: 0.5rem 0;
+  width: 100%;
+  max-width: 280px;
+}
+
+/* Tablet and larger screens */
+@media (min-width: 768px) {
+  .game-loop {
+    min-width: 450px;
+    padding: 1rem 0;
+    margin-bottom: 2rem;
+  }
+
+  .game-loop__top-section {
+    gap: 2rem;
+  }
+
+  .game-loop__buttons {
+    flex-direction: row;
+    gap: 1rem;
+    min-height: 2.5rem;
+    max-width: none;
+    width: auto;
+  }
+}
