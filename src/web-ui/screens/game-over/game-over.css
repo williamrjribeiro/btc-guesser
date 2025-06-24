@@ -84,7 +84,7 @@
     flex-wrap: wrap;
     justify-content: space-evenly;
   }
-  
+
   .game-over__high-scores {
     max-width: 350px;
     flex: 1;

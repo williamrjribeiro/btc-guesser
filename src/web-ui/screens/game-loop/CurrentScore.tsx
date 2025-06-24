@@ -10,4 +10,4 @@ export const CurrentScore = ({ gameCore }: CurrentScoreProps) => (
     <span>💰 Score:</span>
     <span>{gameCore.score.value}</span>
   </div>
-); 
+);
