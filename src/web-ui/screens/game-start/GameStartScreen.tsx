@@ -1,22 +1,25 @@
 import type { GameScreenProps } from '../../App';
 import { CtaButton } from '../../components/CtaButton';
+import { Screen } from '../../components/Screen';
 import './rules.css';
 
 export const GameStartScreen = ({ gameCore }: GameScreenProps) => (
-  <div className="game-start">
-    <Rules />
+  <Screen>
+    <div className="game-start">
+      <Rules />
 
-    <div className="game-start__buttons">
-      <CtaButton variant="primary" onClick={() => gameCore.start(true)}>
-        🤞 New Game 🤞
-      </CtaButton>
-      {gameCore.priceHistory.value.length > 0 && (
-        <CtaButton variant="secondary" onClick={() => gameCore.start()}>
-          🎮 Continue 🎮
+      <div className="game-start__buttons">
+        <CtaButton variant="primary" onClick={() => gameCore.start(true)}>
+          🤞 New Game 🤞
         </CtaButton>
-      )}
+        {gameCore.priceHistory.value.length > 0 && (
+          <CtaButton variant="secondary" onClick={() => gameCore.start()}>
+            🎮 Continue 🎮
+          </CtaButton>
+        )}
+      </div>
     </div>
-  </div>
+  </Screen>
 );
 
 const Rules = () => (
