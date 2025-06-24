@@ -7,6 +7,7 @@ import GuessInput from './GuessInput';
 import PriceGuessHistory from './PriceGuessHistory';
 import CountdownTimer from './CountdownTimer';
 import CryptoPrice from './CryptoPrice';
+import './game-loop.css';
 
 export const GameLoopScreen = ({ gameCore }: GameScreenProps) => (
   <Screen>

@@ -4,6 +4,10 @@
 .game-loop {
   align-items: center;
   padding: 0.5rem 0;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 2rem;
 }
 
 .game-loop__top-section {
