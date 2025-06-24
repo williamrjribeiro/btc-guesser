@@ -12,6 +12,17 @@
   font-size: 0.9rem;
 }
 
+.rules__item {
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.rules__item:last-child {
+  margin-bottom: 0;
+}
+
 /* Tablet and larger screens */
 @media (min-width: 768px) {
   .rules {
@@ -21,23 +32,9 @@
     font-size: 1rem;
     max-width: 500px;
   }
-}
-
-.rules__item {
-  margin-bottom: 0.75rem;
-  display: flex;
-  align-items: flex-start;
-  gap: 0.5rem;
-}
-
-/* Tablet and larger screens */
-@media (min-width: 768px) {
+  
   .rules__item {
     margin-bottom: 0.5rem;
     align-items: center;
   }
-}
-
-.rules__item:last-child {
-  margin-bottom: 0;
 }
