@@ -7,7 +7,7 @@ interface FinalScoreProps {
 export const FinalScore = ({ score }: FinalScoreProps) => {
   const scoreResult = score === 0 ? 'zero' : score > 0 ? 'positive' : 'negative';
   const { emoji, className } = SCORE_RESULTS_MAP[scoreResult];
-  
+
   return (
     <div className={`final-score ${className}`}>
       <span>Final Score: {score}</span>
