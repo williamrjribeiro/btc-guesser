@@ -2,7 +2,7 @@ import { mockCryptoPriceFetcher } from '../adapters/MockCryptoFetcher';
 import GameCore, { type GameState } from '../game-core/GameCore';
 import './app.css';
 import { GameStartScreen } from './screens/game-start/GameStartScreen';
-import { GameLoopScreen } from './components/GameLoopScreen';
+import { GameLoopScreen } from './screens/game-loop/GameLoopScreen';
 import { GameOverScreen } from './screens/game-over/GameOverScreen';
 import { Footer } from './components/Footer';
 import type { ComponentType } from 'preact';
