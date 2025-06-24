@@ -2,9 +2,10 @@ import type { Signal } from '@preact/signals';
 import { Table, TableContainer, TableHead, TableRow, TableHeader, TableCell } from '../../components/Table';
 import priceFormatter from './priceFormatter';
 import { GuessDirection, type CryptoPriceGuess } from '../../../game-core/GameCore';
+import './price-history.css';
 
 const PriceGuessHistory = ({ priceHistory }: { priceHistory: Signal<CryptoPriceGuess[]> }) => (
-  <div className="game-loop__price-history">
+  <div className="price-history">
     <TableContainer scrollable>
       <Table compact>
         <TableHead sticky>

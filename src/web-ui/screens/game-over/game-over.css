@@ -1,0 +1,103 @@
+/* ========================================
+   GameOverScreen Block - Mobile First
+   ======================================== */
+.game-over {
+  align-items: center;
+  justify-content: flex-start;
+  flex: 1;
+  padding: 1rem 0;
+}
+
+.game-over__restart {
+  margin-top: 1.5rem;
+  width: 100%;
+  max-width: 280px;
+}
+
+.game-over__content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.game-over__high-scores {
+  width: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.game-over__high-scores h3 {
+  font-size: 1.1rem;
+  color: #2c3e50;
+  margin: 0 0 0.75rem 0;
+  text-align: center;
+}
+
+.game-over__high-scores__loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem;
+  color: #6c757d;
+  font-style: italic;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  font-size: 0.9rem;
+}
+
+.game-over__high-scores__container {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 0.75rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  overflow-x: auto;
+}
+
+/* Tablet and larger screens */
+@media (min-width: 768px) {
+  .game-over {
+    justify-content: space-between;
+    padding: 2rem 0;
+  }
+
+  .game-over__restart {
+    margin-top: auto;
+    margin-bottom: 1rem;
+    width: auto;
+    max-width: none;
+  }
+
+  .game-over__content {
+    flex-direction: row;
+    gap: 2rem;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  
+  .game-over__high-scores {
+    max-width: 350px;
+    flex: 1;
+    min-width: 500px;
+    max-height: 525px;
+  }
+
+  .game-over__high-scores h3 {
+    font-size: 1.3rem;
+  }
+
+  .game-over__high-scores__loading {
+    padding: 2rem;
+    font-size: 1rem;
+  }
+
+  .game-over__high-scores__container {
+    padding: 1rem;
+  }
+}

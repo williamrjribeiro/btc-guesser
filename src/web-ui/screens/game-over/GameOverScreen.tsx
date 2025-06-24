@@ -4,6 +4,7 @@ import { Screen } from '../../components/Screen';
 import './score.css';
 import HighScoresTable from './HighScoresTable';
 import PriceGuessHistoryBreakdown from './PriceGuessHistoryBreakdown';
+import './game-over.css';
 
 export const GameOverScreen = ({ gameCore }: GameScreenProps) => {
   const score = gameCore.score.value;

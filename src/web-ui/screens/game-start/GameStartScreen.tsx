@@ -2,6 +2,7 @@ import type { GameScreenProps } from '../../App';
 import { CtaButton } from '../../components/CtaButton';
 import { Screen } from '../../components/Screen';
 import './rules.css';
+import './game-start.css';
 
 export const GameStartScreen = ({ gameCore }: GameScreenProps) => (
   <Screen>

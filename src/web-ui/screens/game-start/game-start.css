@@ -1,0 +1,32 @@
+/* ========================================
+   GameStartScreen Block - Mobile First
+   ======================================== */
+.game-start {
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 0;
+  flex: 1;
+}
+
+.game-start__buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 280px;
+}
+
+/* Tablet and larger screens */
+@media (min-width: 768px) {
+  .game-start {
+    justify-content: space-around;
+    padding: 2rem 0;
+  }
+
+  .game-start__buttons {
+    flex-direction: row;
+    gap: 1rem;
+    max-width: none;
+    width: auto;
+  }
+}
