@@ -1,7 +1,7 @@
 import { mockCryptoPriceFetcher } from '../adapters/MockCryptoFetcher';
 import GameCore, { type GameState } from '../game-core/GameCore';
 import './app.css';
-import { GameStartScreen } from './components/GameStartScreen';
+import { GameStartScreen } from './screens/game-start/GameStartScreen';
 import { GameLoopScreen } from './components/GameLoopScreen';
 import { GameOverScreen } from './components/GameOverScreen';
 import { Footer } from './components/Footer';
