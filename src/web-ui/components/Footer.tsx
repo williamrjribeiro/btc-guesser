@@ -7,7 +7,7 @@ export function Footer() {
         <span className="footer__author">Created by William R. J. Ribeiro</span>
         <div className="footer__links">
           <a
-            href="https://github.com/wrjr/btc-guesser"
+            href="https://github.com/williamrjribeiro/btc-guesser"
             target="_blank"
             rel="noopener noreferrer"
             className="footer__link"
@@ -15,7 +15,7 @@ export function Footer() {
             GitHub
           </a>
           <a
-            href="https://github.com/wrjr/btc-guesser/issues"
+            href="https://github.com/williamrjribeiro/btc-guesser/issues"
             target="_blank"
             rel="noopener noreferrer"
             className="footer__link"
