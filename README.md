@@ -15,7 +15,8 @@ I followed some basic Lean Development principles and XP practices. To name a fe
 ## Architecture overview
 
 The main components are organized by folders:
-- **Game-core:** Plain TypeScript code with minimal usage of external libraries. It contains the main game loop and logic. Also, define types and interfaces for external functionalities. Similar to the Ports-Adapters pattern. The rule is that the game core must not have any dependencies outside the core. All other parts of the application may depend on the core. 
+
+- **Game-core:** Plain TypeScript code with minimal usage of external libraries. It contains the main game loop and logic. Also, define types and interfaces for external functionalities. Similar to the Ports-Adapters pattern. The rule is that the game core must not have any dependencies outside the core. All other parts of the application may depend on the core.
 - **Adapters:** This class implements the Ports defined and used by the game core. It also implements persistence and external API communication. Uses the Repository pattern with DynamoDB for high score storage.
 - **web-ui:** The web application for the game. It uses the game core and adapters. It is a simple single-page application using Preact and Signals. All UI components are custom-made using CSS and HTML, following the classic BEM approach.
 
