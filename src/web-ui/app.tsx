@@ -3,7 +3,7 @@ import GameCore, { type GameState } from '../game-core/GameCore';
 import './app.css';
 import { GameStartScreen } from './screens/game-start/GameStartScreen';
 import { GameLoopScreen } from './components/GameLoopScreen';
-import { GameOverScreen } from './components/GameOverScreen';
+import { GameOverScreen } from './screens/game-over/GameOverScreen';
 import { Footer } from './components/Footer';
 import type { ComponentType } from 'preact';
 import { LocalStorageHistory } from '../adapters/LocalStorageHistory';
